@@ -1,0 +1,18 @@
+.invalid-field-color{
+  color: var(--field-required-color);
+}
+
+.invalid-field-border{
+  border-color: var(--field-required-color);
+}
+
+.invalid-field-border:hover{
+  border-color: var(--field-required-color);
+}
+
+.toggle-password-button{
+  position: absolute;
+  top: 39px;
+  right: 22px;
+  cursor: pointer;
+}

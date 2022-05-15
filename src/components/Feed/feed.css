@@ -1,0 +1,10 @@
+.feed-container{
+  flex: 60%;
+  /* background-color: green; */
+  height: 90vh;
+}
+
+.feed-wrapper{
+  padding: 2rem;
+  width: 100%;
+}

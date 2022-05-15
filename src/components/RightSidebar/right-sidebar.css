@@ -1,0 +1,10 @@
+.right-sidebar-container{
+  flex: 15%;
+  height: 90vh;
+  background-color: yellow;
+}
+
+.sidebar-wrapper{
+  /* padding: 2rem; */
+  
+}
