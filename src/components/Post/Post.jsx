@@ -1,6 +1,7 @@
 import "./post.css";
 import dummy from "../Header/dummy_profile_img.png";
 import { MoreVert, ThumbUpOutlined } from "@material-ui/icons";
+import {} from 'react-router-dom'
 import Button from "../Buttons/Button";
 const Post = () => {
   return (

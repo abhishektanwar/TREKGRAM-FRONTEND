@@ -5,9 +5,14 @@
 
 .left-sidebar-wrapper{
   padding: 2rem;
-  background-color: pink;
 }
 
 .sidebar-list{
   list-style-type: none;
+}
+
+.sidebar-list-item:hover{
+  background-color: var(--grey-background-color);
+  transform: scale(1.2);
+  border-radius: 1rem;
 }

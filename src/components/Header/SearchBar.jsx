@@ -12,7 +12,7 @@ const SearchBar = ({handleSearch}) => {
     <form className="search-bar-container">
       <input
         type="text"
-        placeholder="Search by note title..."
+        placeholder=""
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
       />
