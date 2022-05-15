@@ -1,3 +1,4 @@
+import Post from '../Post/Post'
 import Share from '../Share/Share'
 import './feed.css'
 
@@ -6,6 +7,7 @@ const Feed = () => {
     <div className="flex-row feed-container">
       <div className="feed-wrapper">
         <Share />
+        <Post />
       </div>
     </div>
   )

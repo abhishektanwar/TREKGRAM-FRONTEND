@@ -1,0 +1,41 @@
+.post-container{
+  margin-top: 2rem;
+}
+
+.post-wrapper{
+  padding: 1rem;
+}
+
+.post-username{
+  margin-left: 1rem;
+}
+
+.post-time{
+  margin-left: 1rem;
+}
+
+.post-top-section{
+  justify-content: space-between;
+}
+
+.post-middle-section{
+  margin-top: 1.2rem;
+}
+
+.post-middle-section img{
+  margin-top: 2rem;
+}
+
+.post-text-body{
+  line-height: 2.2rem;
+}
+
+.post-bottom-section{
+  margin-top: 1.4rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.like-counter{
+  /* margin-left: rem; */
+}

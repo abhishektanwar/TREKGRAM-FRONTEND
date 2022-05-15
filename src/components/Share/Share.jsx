@@ -3,12 +3,13 @@ import dummy from "../Header/dummy_profile_img.png";
 import InputField from "../InputField";
 import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
 import Button from "../Buttons/Button";
+import Post from "../Post/Post";
 const Share = () => {
   return (
     <div className="share-container">
       <div className="share-wrapper shadow-box">
         <div className="share-top-section flex-row flex-align-item-center">
-          <div class="avatar avatar-sm margin-trb-16">
+          <div class="avatar avatar-sm">
             <img
               src={dummy}
               alt="avatar"
