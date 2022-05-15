@@ -1,7 +1,7 @@
 import "./share.css";
 import dummy from "../Header/dummy_profile_img.png";
 import InputField from "../InputField";
-import { PermMedia,Label,Room,EmojiEmotions } from "@material-ui/icons";
+import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
 import Button from "../Buttons/Button";
 const Share = () => {
   return (
@@ -24,6 +24,7 @@ const Share = () => {
             required={true}
             validation={true}
             customClass="share-input-field"
+            textarea={true}
           />
         </div>
         <div className="share-bottom-section flex-row">

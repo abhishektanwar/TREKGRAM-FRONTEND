@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./input.css";
 
-const InputField= ({
+const InputField = ({
   parentClass,
   type,
   name,
@@ -14,8 +14,8 @@ const InputField= ({
   required,
   validation,
   showTogglePasswordButton,
-  customClass="",
-
+  customClass = "",
+  textarea = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -23,25 +23,42 @@ const InputField= ({
       className={`flex-column form-field-container ${parentClass}`}
       style={{ position: "relative" }}
     >
-      {labelText && <label
-        className={`input-label ${labelClass} ${
-          !validation ? "invalid-field-color" : ""
-        }`}
-      >
-        {labelText}
-      </label> }
-      
-      <input
-        className={`form-field ${customClass} ${!validation ? "invalid-field-border" : ""}`}
-        type={showTogglePasswordButton && showPassword ? "text" : type}
-        name={name}
-        id={id}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        required={required ?? false}
-        
-      />
+      {labelText && (
+        <label
+          className={`input-label ${labelClass} ${
+            !validation ? "invalid-field-color" : ""
+          }`}
+        >
+          {labelText}
+        </label>
+      )}
+      {textarea ? (
+        <textarea
+          name={name}
+          id={id}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          required={required ?? false}
+          rows={3}
+          className={`form-field ${customClass} ${
+            !validation ? "invalid-field-border" : ""
+          }`}
+        />
+      ) : (
+        <input
+          className={`form-field ${customClass} ${
+            !validation ? "invalid-field-border" : ""
+          }`}
+          type={showTogglePasswordButton && showPassword ? "text" : type}
+          name={name}
+          id={id}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          required={required ?? false}
+        />
+      )}
       {showTogglePasswordButton ? (
         <span
           role="button"
