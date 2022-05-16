@@ -8,13 +8,14 @@ import {
 import dummy from "../../components/Header/dummy_profile_img.png";
 
 import "./profile.css";
+import ProfileRightBar from "./ProfileRightBar";
 const Profile = () => {
   return (
     <div>
       <nav className="nav-bar shadow-box" id="my-nav-bar">
         <Header />
       </nav>
-      <div className="flex-row profile-container">
+      <div className="flex-row profile-container app-container">
         <LeftSidebar />
         <div className="profile-right">
           <div className="profile-right-top flex-column">
@@ -51,7 +52,7 @@ const Profile = () => {
           </div>
           <div className="profile-right-bottom">
             <Feed />
-            <RightSidebar />
+            <RightSidebar component={<ProfileRightBar />} />
           </div>
         </div>
       </div>

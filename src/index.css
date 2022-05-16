@@ -28,3 +28,13 @@
 .pointer{
   cursor: pointer;
 }
+
+.app-container{
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+.app{
+  background-color:var(--grey-background-color);
+  height: 100%;
+}

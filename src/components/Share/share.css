@@ -1,5 +1,6 @@
 .share-wrapper {
   padding: 1.4rem;
+  background-color:var(--bg-color);
 }
 
 .share-top-section {
