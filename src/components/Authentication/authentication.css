@@ -1,0 +1,66 @@
+.authentication-container{
+	background-color: var(--bg-color);
+	height:fit-content;
+	width: 50em;
+	align-items: center;
+	padding: 3rem 7rem;
+}
+
+.authentication-container form{
+	margin: 0;
+	margin-top: 5rem;
+}
+
+.authentication-container .form-field-container{
+	margin-bottom: 2.4rem;
+}
+.input-label{
+	padding: 4px 0;
+	font-family: 400;
+}
+
+.checkmark{
+	height: 16px;
+	width: 16px;
+	border-radius: 3px;
+}
+
+.checkbox-container .checkmark:after{
+	left: 5px;
+    bottom: 4px;
+    width: 3px;
+    height: 7px;
+}
+
+.forgot-your-pass{
+	color: var(--primary-dark-color);
+	text-decoration: none;
+}
+
+.authentication-container .checkbox-container{
+	margin-bottom: 0;
+}
+
+.authentication-container .btn{
+	padding: 10px 20px;
+}
+
+.card-action-btn-container a{
+	margin-top: 20px;
+	justify-content: center;
+	display: flex;
+	text-decoration: none;
+	color: inherit;
+}
+
+.auth-body{
+	height: 90vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+@media screen and (max-width:480px) {
+	.auth-body{
+		width: 100%;
+	}
+}
