@@ -35,14 +35,19 @@ const Profile = () => {
                   />
                 </div>
               </div>
-                
             </div>
             <div className="user-info flex-column">
-                  <h4 className="margin0">user name</h4>
-                  <span className="typo-xs">@user_handle</span>
-                  {/* <Button buttonText="Edit Profile" /> */}
-                  <span className="user-bio body-typo-sm">A paragraph is a series of related sentences developing a central idea, called the topic. Try to think about paragraphs in terms of thematic unity: a paragraph is a sentence or a group of sentences that supports one central, unified ideas of thematic unity: a paragraph is a sentence or a group of </span>
-                </div>
+              <h4 className="margin0 user-name">user name</h4>
+              <span className="body-typo-md user-handle">@user_handle</span>
+              <Button buttonText="Edit Profile" buttonStyle="edit-profile-btn" />
+              <span className="user-bio body-typo-sm">
+                A paragraph is a series of related sentences developing a
+                central idea, called the topic. Try to think about paragraphs in
+                terms of thematic unity: a paragraph is a sentence or a group of
+                sentences that supports one central, unified ideas of thematic
+                unity: a paragraph is a sentence or a group of{" "}
+              </span>
+            </div>
           </div>
           <div className="profile-right-bottom">
             <Feed />
