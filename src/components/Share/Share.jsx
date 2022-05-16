@@ -31,22 +31,22 @@ const Share = () => {
         <div className="share-bottom-section flex-row">
           <div className="share-options flex-row flex-justify-content-space-between">
             <Button
-              buttonStyle="secondary-button margin0 flex-align-item-center body-typo-sm flex-row"
+              buttonStyle="share-action-btn body-typo-sm"
               icon={<PermMedia htmlColor="tomato" fontSize="medium" />}
               buttonText="Photo or video"
             />
             <Button
-              buttonStyle="secondary-button margin0 flex-align-item-center body-typo-sm flex-row"
+              buttonStyle="share-action-btn body-typo-sm"
               icon={<Label htmlColor="blue" fontSize="medium" />}
               buttonText="Tag"
             />
             <Button
-              buttonStyle="secondary-button margin0 flex-align-item-center body-typo-sm flex-row"
+              buttonStyle="share-action-btn body-typo-sm"
               icon={<Room htmlColor="green" fontSize="medium" />}
               buttonText="Location"
             />
             <Button
-              buttonStyle="secondary-button margin0 flex-align-item-center body-typo-sm flex-row"
+              buttonStyle="share-action-btn body-typo-sm"
               icon={<EmojiEmotions htmlColor="goldenrod" fontSize="medium" />}
               buttonText="Feelings"
             />

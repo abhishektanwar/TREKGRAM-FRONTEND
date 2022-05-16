@@ -5,7 +5,6 @@ const SearchBar = ({handleSearch}) => {
   const [searchInput, setSearchInput] = useState("");
   useEffect(() => {
     if (searchInput===""){
-      // handleSearch("")
     }
   }, [searchInput])
   return (

@@ -1,41 +1,51 @@
 import "./left-sidebar.css";
-import { HomeOutlined,RssFeed,BookmarkBorder,AccountCircleOutlined } from "@material-ui/icons";
+import {
+  HomeOutlined,
+  RssFeed,
+  BookmarkBorder,
+  AccountCircleOutlined,
+} from "@material-ui/icons";
 import Button from "../Buttons/Button";
+
+const NavButton = ({ buttonText, icon }) => {
+  return (
+    <Button
+      buttonStyle="left-sidebar-nav-btn"
+      icon={icon}
+      buttonText={buttonText}
+    />
+  );
+};
+
 const LeftSidebar = () => {
   return (
     <div className="left-sidebar-container">
       <div className="left-sidebar-wrapper">
         <ul className="sidebar-list padding0">
           <li className="sidebar-list-item">
-            <Button
-              buttonStyle="secondary-button margin0 flex-align-item-center flex-row"
-              icon={<HomeOutlined fontSize="large" />}
+            <NavButton
               buttonText="Feed"
+              icon={<HomeOutlined fontSize="large" />}
             />
           </li>
           <li className="sidebar-list-item">
-            <Button
-              buttonStyle="secondary-button margin0 flex-align-item-center flex-row"
-              icon={<RssFeed fontSize="large" />}
+            <NavButton
               buttonText="Explore"
+              icon={<RssFeed fontSize="large" />}
             />
           </li>
           <li className="sidebar-list-item">
-            <Button
-              buttonStyle="secondary-button margin0 flex-align-item-center flex-row"
-              icon={<BookmarkBorder fontSize="large" />}
+            <NavButton
               buttonText="Bookmark"
+              icon={<BookmarkBorder fontSize="large" />}
             />
           </li>
           <li className="sidebar-list-item">
-            <Button
-              buttonStyle="secondary-button margin0 flex-align-item-center flex-row"
-              icon={<AccountCircleOutlined fontSize="large" />}
+            <NavButton
               buttonText="Profile"
+              icon={<AccountCircleOutlined fontSize="large" />}
             />
           </li>
-          
-          
         </ul>
       </div>
     </div>

@@ -1,15 +1,19 @@
 *{
   font-family: 'Roboto', sans-serif;
 }
+:root{
+  --black-color:#131212;
+  --grey-border-color:#D1D1D1;
+  --grey-bg-light-color:#F9F9F9;
+}
 
 .secondary-button{
   background-color: unset;
-  color: black;
+  color: var(--black-color);
   cursor: pointer;
 }
 
 .secondary-button svg{
-  /* font-size: 2rem; */
   margin-right: 1rem;
 }
 

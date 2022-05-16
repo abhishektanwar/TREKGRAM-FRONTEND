@@ -66,9 +66,9 @@ const InputField = ({
           onClick={() => setShowPassword((prev) => !prev)}
         >
           {showPassword ? (
-            <i className="far fa-eye" style={{ fontSize: "1.6rem" }}></i>
+            <i className="far fa-eye toggle-password-icon" ></i>
           ) : (
-            <i className="far fa-eye-slash" style={{ fontSize: "1.6rem" }}></i>
+            <i className="far fa-eye-slash" ></i>
           )}
         </span>
       ) : null}

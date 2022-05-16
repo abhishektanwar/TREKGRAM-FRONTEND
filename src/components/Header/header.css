@@ -4,10 +4,10 @@
 
 .search-bar-container{
   width: 40%;
-  border: 1px solid #D1D1D1;
+  border: 1px solid var(--grey-border-color);
   padding: 10px;
   border-radius: 5px;
-  background-color: #F9F9F9;
+  background-color: var(--grey-bg-light-color);
   display: flex;
   align-items: center;
   justify-content: space-around;

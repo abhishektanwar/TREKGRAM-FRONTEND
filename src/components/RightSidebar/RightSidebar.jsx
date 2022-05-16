@@ -5,7 +5,7 @@ const RightSidebar = () => {
       <div className="right-sidebar-wrapper">
         
       </div>
-      right saidebar
+      right sidebar
     </div>
   )
 }

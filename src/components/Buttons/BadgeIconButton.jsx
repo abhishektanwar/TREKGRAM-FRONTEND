@@ -3,7 +3,6 @@ import React from "react";
 const BadgeIconButton = (props) => {
   const { badgeNumber, icon, badgeIconButtonWrapper, onClick } = props;
   return (
-    // <div>
       <button onClick={onClick} className={`btn ${badgeIconButtonWrapper}`}>
         <span className="badge-icon badge-container">
           {icon}
@@ -13,9 +12,7 @@ const BadgeIconButton = (props) => {
             </span>
           ) : null}
         </span>
-        {/* {icon} */}
       </button>
-    // </div>
   );
 };
 

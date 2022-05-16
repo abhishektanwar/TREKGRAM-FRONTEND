@@ -16,3 +16,12 @@
   transform: scale(1.2);
   border-radius: 1rem;
 }
+
+.left-sidebar-nav-btn{
+  display: flex;
+  align-items: center;
+  background-color: unset;
+  color: var(--black-color);
+  cursor: pointer;
+  margin: 0;
+}
