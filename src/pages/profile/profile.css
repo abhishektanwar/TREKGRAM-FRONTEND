@@ -1,0 +1,39 @@
+.profile-right-bottom{
+  display: flex;
+}
+
+.prof
+
+.profile-right{
+  flex: 75%;
+}
+
+.profile-cover{
+  height: 30rem;
+  position: relative;
+}
+
+.profile-cover-img{
+  width: 100%;
+  height: 25rem;
+  object-fit: cover;
+}
+
+.profile-user-img{
+  position: absolute;
+  bottom:10px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.user-info{
+  /* margin-top: 20px; */
+  align-items: center;
+}
+
+.user-bio{
+  width: 60%;
+  margin-top: 1rem;
+}
