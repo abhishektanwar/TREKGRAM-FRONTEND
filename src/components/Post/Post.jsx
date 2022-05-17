@@ -32,17 +32,20 @@ const Post = ({ post }) => {
             />
           </div>
         </div>
-        <div className="post-middle-section">
-          <p className="post-text-body body-typo-md">
-            {desc}
-          </p>
-          <img
-            src={dummy}
-            alt="post-image"
-            loading="lazy"
-            class="responsive-img"
-          />
-        </div>
+          <div className="post-middle-section">
+            <p className="post-text-body body-typo-md">
+              {desc}
+            </p>
+        {/* {post.img ? (
+            <img
+              src={ post.img ? `data:image/png;base64,${post.img}` : dummy}
+              alt="post-image"
+              loading="lazy"
+              class="responsive-img"
+            />
+            ) : null} */}
+          </div>
+
         <div className="post-bottom-section flex-row">
           <div className="post-bottom-left flex-row flex-align-item-center">
             <Button

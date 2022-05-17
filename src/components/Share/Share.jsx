@@ -4,19 +4,36 @@ import InputField from "../InputField";
 import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
 import Button from "../Buttons/Button";
 import Post from "../Post/Post";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { createNewPost, uploadPostImage } from "../../reducers/counterSlice";
+import { Loader } from "../Loader/Loader";
 const Share = () => {
   const { user } = useSelector((state) => state.user);
-  const [description, setDescription] = useState("");
-  const [file,setFile] = useState(null)
+  const { postCreatedStatus } = useSelector((state) => state.counter);
 
-  const handleSharePost = (e) => {
-    console.log("file",file);
-    console.log("desc",description);
-  }
+  const [description, setDescription] = useState("");
+  const dispatch = useDispatch();
+
+  const handleSharePost = async (e) => {
+    e.preventDefault();
+    let newPost = {
+      userId: user?._id,
+      desc: description,
+    };
+
+    dispatch(createNewPost(newPost));
+  };
+
+  useEffect(() => {
+    if (postCreatedStatus === "fulfilled") {
+      // setFile(null)
+      setDescription("");
+    }
+  }, [postCreatedStatus]);
   return (
     <div className="share-container">
+      {postCreatedStatus === "loading" && <Loader />}
       <div className="share-wrapper shadow-box">
         <div className="share-top-section flex-row flex-align-item-center">
           <div class="avatar avatar-sm">
@@ -40,16 +57,14 @@ const Share = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div className="share-bottom-section flex-row">
+        {/* <form onSubmit={(e)=>handleSharePost(e)} className="share-bottom-section flex-row">
           <div className="share-options flex-row flex-justify-content-space-between">
-            {/* <Button
+            <Button
               buttonStyle="share-action-btn body-typo-sm"
               icon={<PermMedia htmlColor="tomato" fontSize="medium" />}
               buttonText="Photo or video"
-            /> */}
+            />
             <label htmlFor="file"
-              // type={type}
-              // onClick={onClick}
               className={`margin-trb-16 btn btn-filled-primary ${"share-action-btn body-typo-sm"}`}
             >
               <PermMedia htmlColor="tomato" fontSize="medium" />
@@ -72,8 +87,12 @@ const Share = () => {
               buttonText="Feelings"
             />
           </div>
-          <Button buttonText="Post" buttonStyle="post-btn" onClick={handleSharePost} />
-        </div>
+        </form> */}
+        <Button
+          buttonText="Post"
+          onClick={(e) => handleSharePost(e)}
+          buttonStyle="post-btn"
+        />
       </div>
     </div>
   );

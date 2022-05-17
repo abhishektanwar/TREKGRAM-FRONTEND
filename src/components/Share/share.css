@@ -35,6 +35,8 @@
   margin: 0;
   padding: 4px;
   border-radius: 5px;
+  margin-top: 1rem;
+  margin-left: auto;
 }
 
 .share-action-btn{
