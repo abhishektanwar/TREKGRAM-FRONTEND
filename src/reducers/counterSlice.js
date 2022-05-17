@@ -76,6 +76,60 @@ export const createNewPost = createAsyncThunk("counter/createNewPost", async (da
   }
 });
 
+export const likePost = createAsyncThunk("counter/likePost",async ({id,userId},{rejectWithValue})=>{
+  try{
+    console.log("data like Post",{id,userId})
+    const result = await axios.request({
+      method:'put',
+      url:`https://trekgram-backend.herokuapp.com/api/post/${id}/like`,
+      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`},
+      data: {userId:userId}
+    })
+    console.log("likePost result" ,result);
+    return result.data;
+  }
+  catch(err){
+    console.log("counter/likePost",err)
+    return rejectWithValue("Failed to like/unlike post")
+  }
+});
+
+export const deletePost = createAsyncThunk("counter/deletePost",async ({postId,userId},{rejectWithValue})=>{
+  try{
+    console.log("data like Post",{postId,userId})
+    const result = await axios.request({
+      method:'delete',
+      url:`https://trekgram-backend.herokuapp.com/api/post/${postId}`,
+      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`},
+      data: {userId:userId}
+    })
+    console.log("likePost result" ,result);
+    return postId;
+  }
+  catch(err){
+    console.log("counter/likePost",err)
+    return rejectWithValue("Failed to like/unlike post")
+  }
+})
+
+export const bookmarkPost = createAsyncThunk("user/bookmarkPost",async ({postId},{rejectWithValue})=>{
+  try{
+    console.log("data like Post",{postId})
+    const result = await axios.request({
+      method:'put',
+      url:`https://trekgram-backend.herokuapp.com/api/post/${postId}/bookmark`,
+      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`},
+      // data: {userId:userId}
+    })
+    console.log("likePost result" ,result);
+    return postId;
+  }
+  catch(err){
+    console.log("counter/likePost",err)
+    return rejectWithValue("Failed to like/unlike post")
+  }
+})
+
 
 export const counterSlice = createSlice({
   name: "counter",
@@ -126,7 +180,21 @@ export const counterSlice = createSlice({
     [createNewPost.rejected]:(state,action)=>{
       state.postCreatedStatus = true;
       state.postCreatedMessage=action.payload
-    }
+    },
+    // delete post
+    [deletePost.pending]: (state) => {
+      state.postCreatedStatus = "loading";
+    },
+    [deletePost.fulfilled]: (state, action) => {
+      console.log("delete post", action);
+      // state.postCreatedStatus = "fulfilled"
+      state.posts = state.posts.filter((post)=>post._id !== action.payload)
+      // state.posts = action.payload;
+    },
+    [deletePost.rejected]:(state,action)=>{
+      // state.postCreatedStatus = true;
+      // state.postCreatedMessage=action.payload
+    },
   },
 });
 

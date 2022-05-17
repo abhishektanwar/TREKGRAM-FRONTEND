@@ -1,10 +1,44 @@
 import "./post.css";
 import dummy from "../Header/dummy_profile_img.png";
-import { MoreVert, ThumbUpOutlined } from "@material-ui/icons";
+import {
+  MoreVert,
+  ThumbUpOutlined,
+  ThumbUpRounded,
+  Delete,
+  BookmarkBorder,
+  Bookmark,
+} from "@material-ui/icons";
 import {} from "react-router-dom";
 import Button from "../Buttons/Button";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  bookmarkPost,
+  deletePost,
+  likePost,
+} from "../../reducers/counterSlice";
+import { useState } from "react";
 const Post = ({ post }) => {
-  const { username, userId, desc, comments, likes, profilePrcture,createdAt } = post;
+  const { user: currentUser } = useSelector((state) => state.user);
+  const { username, userId, desc, comments, likes, profilePrcture, createdAt } =
+    post;
+  const dispatch = useDispatch();
+  const [postLikes, setPostLikes] = useState(likes.length);
+  const [isLiked, setIsLiked] = useState(likes.includes(currentUser._id));
+  const [isBookmarked, setIsBookmarked] = useState(
+    currentUser.bookmarks.includes(post._id)
+  );
+  // const isLiked = likes.includes(currentUser._id)
+  const handlePostLike = () => {
+    dispatch(likePost({ id: post._id, userId: currentUser._id }));
+    setIsLiked((prev) => !prev);
+    setPostLikes((prev) => (isLiked ? prev - 1 : prev + 1));
+  };
+
+  const handleBookmarkPost = () => {
+    dispatch(bookmarkPost({ postId: post._id }));
+    setIsBookmarked((prev) => !prev);
+    // setPostLikes((prev) => (isLiked ? prev - 1 : prev + 1));
+  };
   return (
     <div className="post-container">
       <div className="post-wrapper shadow-box">
@@ -26,17 +60,33 @@ const Post = ({ post }) => {
             </span>
           </div>
           <div className="post-top-right">
+            {post.userId === currentUser._id ? (
+              <Button
+                icon={<Delete fontSize="large" />}
+                buttonStyle="secondary-button margin0 padding0"
+                onClick={() =>
+                  dispatch(
+                    deletePost({ postId: post._id, userId: currentUser._id })
+                  )
+                }
+              />
+            ) : null}
             <Button
-              icon={<MoreVert />}
+              icon={
+                isBookmarked ? (
+                  <Bookmark fontSize="large" />
+                ) : (
+                  <BookmarkBorder fontSize="large" />
+                )
+              }
               buttonStyle="secondary-button margin0 padding0"
+              onClick={() => handleBookmarkPost()}
             />
           </div>
         </div>
-          <div className="post-middle-section">
-            <p className="post-text-body body-typo-md">
-              {desc}
-            </p>
-        {/* {post.img ? (
+        <div className="post-middle-section">
+          <p className="post-text-body body-typo-md">{desc}</p>
+          {/* {post.img ? (
             <img
               src={ post.img ? `data:image/png;base64,${post.img}` : dummy}
               alt="post-image"
@@ -44,16 +94,23 @@ const Post = ({ post }) => {
               class="responsive-img"
             />
             ) : null} */}
-          </div>
+        </div>
 
         <div className="post-bottom-section flex-row">
           <div className="post-bottom-left flex-row flex-align-item-center">
             <Button
-              icon={<ThumbUpOutlined fontSize="large" />}
+              icon={
+                isLiked ? (
+                  <ThumbUpRounded fontSize="large" />
+                ) : (
+                  <ThumbUpOutlined fontSize="large" />
+                )
+              }
               buttonStyle="secondary-button margin0 padding0"
+              onClick={() => handlePostLike()}
             />
             <span className="like-counter body-typo-md text-medium-weight">
-              {likes.length} likes
+              {postLikes} likes
             </span>
           </div>
           <div className="post-bottom-left"></div>

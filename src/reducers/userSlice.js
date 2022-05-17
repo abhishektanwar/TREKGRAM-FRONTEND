@@ -97,8 +97,6 @@ export const userSlice = createSlice({
       state.user = action.payload.user
       state.authToken = action.payload.token
       utils.setLocalStorage(authTokenKeyLocalStorage,action.payload.token)
-
-      
     },
   },
 });
