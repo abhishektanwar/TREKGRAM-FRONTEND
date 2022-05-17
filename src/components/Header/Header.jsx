@@ -6,8 +6,12 @@ import Button from "../Buttons/Button";
 import BadgeIconButton from "../Buttons/BadgeIconButton";
 import { Person, Chat, Notifications } from "@material-ui/icons";
 import dummy from "./dummy_profile_img.png";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../reducers/userSlice";
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {user,authToken} = useSelector((state)=>state.user)
   return (
     <>
       <Link to="/">
@@ -29,9 +33,9 @@ const Header = () => {
       </div>
       <div className="nav-section">
         <Button
-          buttonText={"Login"}
+          buttonText={authToken ? "Logout" : "Login"}
           buttonStyle={"headerButton typo-sm "}
-          onClick={() => {navigate('/login')}}
+          onClick={() => {authToken ? dispatch(logout()) : navigate('/login')}}
         />
       </div>
       <div className="nav-section">

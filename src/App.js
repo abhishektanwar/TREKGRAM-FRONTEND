@@ -8,16 +8,18 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { verifyUser } from './reducers/userSlice';
+import AuthRoute from './components/AuthRoute/AuthRoute';
+import utils from './utils';
 function App() {
   const {user,authToken} = useSelector((state)=>state.user);
   const dispatch = useDispatch();
 // trekgram-auth-token
   useEffect(()=>{
-    const token = localStorage.getItem("trekgram-auth-token")
-    if(user === null && token){
+    const token = utils.getLocalStorage("TREKGRAM_AUTH_TOKEN")
+    if(!user && token){
       (dispatch(verifyUser()))
     }
-  },[])
+  },[dispatch])
   return (
     <div className="app">
       <Routes>
@@ -25,8 +27,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route element={<AuthRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
       </Routes>
     </div>
   );

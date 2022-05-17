@@ -35,15 +35,15 @@ const SignIn = () => {
   };
 
   const loginUser = () => {
-    dispatch(login())
+    dispatch(login(loginCredentials))
     
   };
 
-  useEffect(()=>{
-    if(user && authToken){
-      navigate("/");
-    }
-  },[user])
+  // useEffect(()=>{
+  //   if(user && authToken){
+  //     navigate("/");
+  //   }
+  // },[user])
 
   return (
     <div className="auth-body">
