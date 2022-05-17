@@ -1,9 +1,10 @@
 import "./post.css";
 import dummy from "../Header/dummy_profile_img.png";
 import { MoreVert, ThumbUpOutlined } from "@material-ui/icons";
-import {} from 'react-router-dom'
+import {} from "react-router-dom";
 import Button from "../Buttons/Button";
-const Post = () => {
+const Post = ({ post }) => {
+  const { username, userId, desc, comments, likes, profilePrcture,createdAt } = post;
   return (
     <div className="post-container">
       <div className="post-wrapper shadow-box">
@@ -18,10 +19,10 @@ const Post = () => {
               />
             </div>
             <span className="typo-xs text-medium-weight post-username">
-              user name
+              {username ?? "<username>"}
             </span>
             <span className="body-typo-sm text-regular-weight post-time">
-              x minutes ago / date
+              {new Date(createdAt).toLocaleDateString()}
             </span>
           </div>
           <div className="post-top-right">
@@ -33,8 +34,7 @@ const Post = () => {
         </div>
         <div className="post-middle-section">
           <p className="post-text-body body-typo-md">
-            This is post text.This is post text.This is post text.This is post
-            text.This is post text.This is post text.This is post text.
+            {desc}
           </p>
           <img
             src={dummy}
@@ -50,12 +50,12 @@ const Post = () => {
               buttonStyle="secondary-button margin0 padding0"
             />
             <span className="like-counter body-typo-md text-medium-weight">
-              53 likes
+              {likes.length} likes
             </span>
           </div>
           <div className="post-bottom-left"></div>
           <span className="post-comment-counter body-typo-md text-medium-weight pointer">
-            19 comments
+            {comments.length} comments
           </span>
         </div>
       </div>

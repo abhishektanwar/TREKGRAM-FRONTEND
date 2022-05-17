@@ -1,10 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
+import utils from "../utils";
+const authTokenKeyLocalStorage = "TREKGRAM_AUTH_TOKEN"
 const initialState = {
   counter: 0,
   status: "idle",
   error:null,
-  post:null
+  posts:[],
+  errorMessage:null
 };
 
 // export const loadPosts = createAsyncThunk("counter/loadPosts", () => {
@@ -13,17 +16,20 @@ const initialState = {
 //     .then((data) => data);
 // });
 
-export const loadPosts = createAsyncThunk("counter/loadPosts", async (id) => {
+export const loadPosts = createAsyncThunk("counter/loadPosts", async (_,{rejectWithValue}) => {
   try{
     const result = await axios.request({
       method:'get',
-      url:`https://trekgram-backend.herokuapp.com/api/post/${id}`
+      url:`https://trekgram-backend.herokuapp.com/api/post/timeline/all`,
+      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`}
+
     })
     console.log("result" ,result);
     return result.data;
   }
   catch(err){
     console.log("counter/loadPosts",err)
+    return rejectWithValue("Failed to load post")
   }
 });
 
@@ -46,10 +52,11 @@ export const counterSlice = createSlice({
     [loadPosts.fulfilled]: (state, action) => {
       console.log("action posts", action);
       state.status = "fulfilled";
-      state.post = action.payload;
+      state.posts = action.payload;
     },
     [loadPosts.rejected]:(state,action)=>{
-      state.error = "error found"
+      state.error = true;
+      state.errorMessage=action.payload
     }
   },
 });
