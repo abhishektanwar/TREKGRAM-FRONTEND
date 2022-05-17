@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {user, authToken} = useSelector((state)=>state.user)
+  const {user, authToken,status} = useSelector((state)=>state.user)
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
     password: "",
@@ -47,6 +47,7 @@ const SignIn = () => {
 
   return (
     <div className="auth-body">
+      {status === "pending" && <Loader />}
       <div className="authentication-container flex-column">
         <h3 className="text-bold-weight">Login</h3>
         <InputField
@@ -93,7 +94,12 @@ const SignIn = () => {
           <Button
             buttonText="Login with test credenials"
             buttonStyle="secondary-button body-typo-md margin-top-0"
-            onClick={() => {}}
+            onClick={() =>
+              setLoginCredentials({
+                email: "testuser@tg.com",
+                password: "test1234",
+              })
+            }
           />
         </div>
       </div>

@@ -30,7 +30,7 @@ export const verifyUser = createAsyncThunk("user/verifyUser",async()=>{
     const result = await axios.request({
       method: "get",
       url: `${BASE_API_URL}/api/auth/verify`,
-      headers:{authorization:`Bearer ${authTokenKeyLocalStorage}`}
+      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`}
     });
     console.log("verify user result", result);
     return result.data;

@@ -9,7 +9,7 @@ import { Loader } from "../Loader/Loader";
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {user, authToken,status} = useSelector((state)=>state.user)
+  const {status} = useSelector((state)=>state.user)
   const [signUpCredentials, setSignUpCredentials] = useState({
     name:"",
     email: "",
@@ -34,8 +34,6 @@ const SignUp = () => {
   };
 
   const signUpUser = async () => {
-    // const success = await signUpHandler(signUpCredentials);
-    // if(success) hideModal();
     dispatch(register({
       password:signUpCredentials.password,
       email:signUpCredentials.email,
@@ -46,7 +44,7 @@ const SignUp = () => {
 
   return (
     <div className="auth-body">
-      {status === "pending " && <Loader />}
+      {status === "pending" && <Loader />}
       <div className="authentication-container flex-column">
         <h3 className="text-bold-weight">Signup</h3>
         <InputField
