@@ -8,9 +8,9 @@ const Button = (props) => {
       onClick={onClick}
       className={`margin-trb-16 btn btn-filled-primary ${buttonStyle}`}
     >
-      {icon ? icon : null}
-      {" "}
       {buttonText}
+      {" "}
+      {icon ? icon : null}
     </button>
   );
 };

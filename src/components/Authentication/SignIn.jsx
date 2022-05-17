@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { InputField } from "..";
-
+import {ChevronRight} from "@material-ui/icons"
 import Button from "../Buttons/Button";
 import { Loader } from "../Loader/Loader";
 import "./authentication.css";
+import { useNavigate } from "react-router";
 const SignIn = () => {
+  const navigate = useNavigate();
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
     password: "",
@@ -70,14 +72,14 @@ const SignIn = () => {
           <Button buttonText="Login" onClick={() => loginUser()} />
           <Button
             buttonText="Create new account"
-            buttonStyle="secondary-button margin-top-0"
-            icon="fas fa-chevron-right"
-            onClick={() => {}}
+            buttonStyle="secondary-button margin-top-0 primary-outline"
+            // icon="fas fa-chevron-right"
+            icon={<ChevronRight fontSize="large" />}
+            onClick={() => {navigate('/register')}}
           />
           <Button
             buttonText="Login with test credenials"
             buttonStyle="secondary-button body-typo-md margin-top-0"
-            icon="fas fa-chevron-right"
             onClick={() => {}}
           />
         </div>

@@ -11,6 +11,8 @@
   background-color: unset;
   color: var(--black-color);
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .secondary-button svg{

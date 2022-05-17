@@ -1,12 +1,13 @@
 import SearchBar from "./SearchBar";
 import { ReactComponent as DetailedLogo } from "./TREK-GRAM-LOGO.svg";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import "./header.css";
 import Button from "../Buttons/Button";
 import BadgeIconButton from "../Buttons/BadgeIconButton";
 import { Person, Chat, Notifications } from "@material-ui/icons";
 import dummy from "./dummy_profile_img.png";
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Link to="/">
@@ -30,7 +31,7 @@ const Header = () => {
         <Button
           buttonText={"Login"}
           buttonStyle={"headerButton typo-sm "}
-          onClick={() => {}}
+          onClick={() => {navigate('/login')}}
         />
       </div>
       <div className="nav-section">

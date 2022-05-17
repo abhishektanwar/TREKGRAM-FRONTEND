@@ -6,18 +6,21 @@ import {
   AccountCircleOutlined,
 } from "@material-ui/icons";
 import Button from "../Buttons/Button";
+import { useNavigate } from "react-router-dom";
 
-const NavButton = ({ buttonText, icon }) => {
+const NavButton = ({ buttonText, icon, onNavBtnClick }) => {
   return (
     <Button
       buttonStyle="left-sidebar-nav-btn"
       icon={icon}
       buttonText={buttonText}
+      onClick={onNavBtnClick}
     />
   );
 };
 
 const LeftSidebar = () => {
+  const navigate = useNavigate();
   return (
     <div className="left-sidebar-container">
       <div className="left-sidebar-wrapper">
@@ -43,7 +46,12 @@ const LeftSidebar = () => {
           <li className="sidebar-list-item">
             <NavButton
               buttonText="Profile"
-              icon={<AccountCircleOutlined fontSize="large" />}
+              icon={
+                <AccountCircleOutlined
+                  fontSize="large"
+                />
+              }
+              onNavBtnClick={() => navigate("/profile")}
             />
           </li>
         </ul>

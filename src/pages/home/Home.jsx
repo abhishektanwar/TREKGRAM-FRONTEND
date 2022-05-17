@@ -6,7 +6,7 @@ const Home = () => {
       <nav className="nav-bar shadow-box" id="my-nav-bar">
           <Header />
       </nav>
-      <div className="flex-row home-container">
+      <div className="flex-row home-container app-container">
         <LeftSidebar />
         <Feed />
         <RightSidebar />

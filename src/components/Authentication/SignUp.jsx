@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { InputField,Button } from "..";
+import {ChevronRight} from '@material-ui/icons';
 import "./authentication.css";
 const SignUp = () => {
+  const navigate = useNavigate();
   const [signUpCredentials, setSignUpCredentials] = useState({
     name:"",
     email: "",
@@ -88,8 +91,8 @@ const SignUp = () => {
             <Button
               buttonText="Already have an account ?"
               buttonStyle="secondary-button"
-              icon="fas fa-chevron-right"
-              onClick={() => {}}
+              icon={<ChevronRight fontSize="large" />}
+              onClick={() => {navigate('/login')}}
             />
           </div>
       </div>
