@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { InputField } from "..";
 import {ChevronRight} from "@material-ui/icons"
 import Button from "../Buttons/Button";
 import { Loader } from "../Loader/Loader";
 import "./authentication.css";
 import { useNavigate } from "react-router";
+import {login} from '../../reducers/userSlice'
+import { useDispatch, useSelector } from "react-redux";
 const SignIn = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {user, authToken} = useSelector((state)=>state.user)
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
     password: "",
@@ -30,7 +34,16 @@ const SignIn = () => {
     }));
   };
 
-  const loginUser = async () => {};
+  const loginUser = () => {
+    dispatch(login())
+    
+  };
+
+  useEffect(()=>{
+    if(user && authToken){
+      navigate("/");
+    }
+  },[user])
 
   return (
     <div className="auth-body">

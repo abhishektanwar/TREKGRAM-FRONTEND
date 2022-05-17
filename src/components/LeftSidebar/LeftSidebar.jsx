@@ -25,13 +25,13 @@ const NavButton = ({ buttonText, icon, onNavBtnClick }) => {
 
 const LeftSidebar = () => {
   const navigate = useNavigate();
-  const {counter,status} = useSelector((state)=>state.counter);
+  const {counter,status,error,post} = useSelector((state)=>state.counter);
   const dispatch = useDispatch(increment())
   console.log("counter",counter)
 
   useEffect(() => {
     if(status === "idle"){
-      dispatch(loadPosts());
+      dispatch(loadPosts("627eac55a1519e35c261aa30"));
     }
     
   }, [dispatch,status]);
@@ -46,6 +46,8 @@ const LeftSidebar = () => {
           <button onClick={() => dispatch(increment())}>
           Increment
         </button>
+        {error ? <h6>error</h6> : <h6>no error</h6>}
+        {post ? <h4>{post.desc}</h4> : <h2>no post</h2>}
         </div>
         <ul className="sidebar-list padding0">
           <li className="sidebar-list-item">
