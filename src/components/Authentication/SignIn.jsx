@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { InputField } from "..";
 import {ChevronRight} from "@material-ui/icons"
 import Button from "../Buttons/Button";
 import { Loader } from "../Loader/Loader";
 import "./authentication.css";
 import { useNavigate } from "react-router";
+import {login} from '../../reducers/userSlice'
+import { useDispatch, useSelector } from "react-redux";
 const SignIn = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {user, authToken,status} = useSelector((state)=>state.user)
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
     password: "",
@@ -30,10 +34,14 @@ const SignIn = () => {
     }));
   };
 
-  const loginUser = async () => {};
+  const loginUser = () => {
+    dispatch(login(loginCredentials))
+    
+  };
 
   return (
     <div className="auth-body">
+      {status === "pending" && <Loader />}
       <div className="authentication-container flex-column">
         <h3 className="text-bold-weight">Login</h3>
         <InputField
@@ -80,7 +88,12 @@ const SignIn = () => {
           <Button
             buttonText="Login with test credenials"
             buttonStyle="secondary-button body-typo-md margin-top-0"
-            onClick={() => {}}
+            onClick={() =>
+              setLoginCredentials({
+                email: "testuser@tg.com",
+                password: "test1234",
+              })
+            }
           />
         </div>
       </div>

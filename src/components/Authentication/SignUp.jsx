@@ -3,8 +3,13 @@ import { useNavigate } from "react-router";
 import { InputField,Button } from "..";
 import {ChevronRight} from '@material-ui/icons';
 import "./authentication.css";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../../reducers/userSlice";
+import { Loader } from "../Loader/Loader";
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {status} = useSelector((state)=>state.user)
   const [signUpCredentials, setSignUpCredentials] = useState({
     name:"",
     email: "",
@@ -21,7 +26,7 @@ const SignUp = () => {
   const isValidPassword = signUpCredentials.password && signUpCredentials.confirmPassword && (signUpCredentials.password.length >= 8) && (signUpCredentials.password === signUpCredentials.confirmPassword) ? true : false;
 
   
-  const handleSignUpCredentialInput = (e:any) => {
+  const handleSignUpCredentialInput = (e) => {
     setSignUpCredentials((creds) => ({
       ...creds,
       [e.target.name]: e.target.value,
@@ -29,13 +34,17 @@ const SignUp = () => {
   };
 
   const signUpUser = async () => {
-    // const success = await signUpHandler(signUpCredentials);
-    // if(success) hideModal();
+    dispatch(register({
+      password:signUpCredentials.password,
+      email:signUpCredentials.email,
+      username:signUpCredentials.name
+    }))
 
   }
 
   return (
     <div className="auth-body">
+      {status === "pending" && <Loader />}
       <div className="authentication-container flex-column">
         <h3 className="text-bold-weight">Signup</h3>
         <InputField
