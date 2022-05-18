@@ -166,7 +166,7 @@ export const addComment = createAsyncThunk(
       console.log("data like Post", { postId });
       const result = await axios.request({
         method: "put",
-        url: `http://localhost:8800/api/post/${postId}/comment`,
+        url: `https://trekgram-backend.herokuapp.com/api/post/${postId}/comment`,
         headers: {
           authorization: `Bearer ${utils.getLocalStorage(
             authTokenKeyLocalStorage
