@@ -21,7 +21,8 @@
 .sidebar-list-item:hover{
   background-color: var(--border-color);
   transform: scale(1.2);
-  /* border-radius:/ 1rem; */
+  width: 90%;
+  margin: 0 auto;
 }
 
 .left-sidebar-nav-btn{

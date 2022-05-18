@@ -1,6 +1,7 @@
 .feed-container{
   flex: 50%;
   /* height: 90vh; */
+  max-width: 80rem;
 }
 
 .feed-wrapper{
