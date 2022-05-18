@@ -1,20 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from 'axios';
+import axios from "axios";
 import utils from "../utils";
-const authTokenKeyLocalStorage = "TREKGRAM_AUTH_TOKEN"
+const authTokenKeyLocalStorage = "TREKGRAM_AUTH_TOKEN";
 const initialState = {
   counter: 0,
   status: "idle",
-  error:null,
-  posts:[],
-  errorMessage:null,
-  imageUploadStatus:"idle",
-  imageUploadError:null,
-  imageUploadErrorMessage:null,
-  postCreatedStatus:"idle",
-  postCreatedError:null,
-  postCreatedMessage:"",
-
+  error: null,
+  posts: [],
+  errorMessage: null,
+  imageUploadStatus: "idle",
+  imageUploadError: null,
+  imageUploadErrorMessage: null,
+  postCreatedStatus: "idle",
+  postCreatedError: null,
+  postCreatedMessage: "",
 };
 
 // export const loadPosts = createAsyncThunk("counter/loadPosts", () => {
@@ -23,113 +22,166 @@ const initialState = {
 //     .then((data) => data);
 // });
 
-export const loadPosts = createAsyncThunk("counter/loadPosts", async (_,{rejectWithValue}) => {
-  try{
-    const result = await axios.request({
-      method:'get',
-      url:`https://trekgram-backend.herokuapp.com/api/post/timeline/all`,
-      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`}
+export const loadPosts = createAsyncThunk(
+  "counter/loadPosts",
+  async (_, { rejectWithValue }) => {
+    try {
+      const result = await axios.request({
+        method: "get",
+        url: `https://trekgram-backend.herokuapp.com/api/post/timeline/all`,
+        headers: {
+          authorization: `Bearer ${utils.getLocalStorage(
+            authTokenKeyLocalStorage
+          )}`,
+        },
+      });
+      console.log("result", result);
+      return result.data;
+    } catch (err) {
+      console.log("counter/loadPosts", err);
+      return rejectWithValue("Failed to load post");
+    }
+  }
+);
 
-    })
-    console.log("result" ,result);
-    return result.data;
+export const uploadPostImage = createAsyncThunk(
+  "counter/uploadPostImage",
+  async ({ data, fileName }, { rejectWithValue }) => {
+    try {
+      console.log("data image upload", data);
+      const result = await axios.request({
+        method: "post",
+        url: `https://trekgram-backend.herokuapp.com/api/upload`,
+        // headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`},'
+        headers: { uploadfilename: fileName },
+        data,
+      });
+      console.log("uploadPostImage", result);
+    } catch (err) {
+      console.log("counter/loadPosts", err);
+      return rejectWithValue("Failed to load post");
+    }
   }
-  catch(err){
-    console.log("counter/loadPosts",err)
-    return rejectWithValue("Failed to load post")
-  }
-});
+);
 
-export const uploadPostImage = createAsyncThunk("counter/uploadPostImage",async ({data,fileName},{rejectWithValue}) =>{
-  try{
-    console.log("data image upload",data);
-    const result = await axios.request({
-      method:'post',
-      url:`https://trekgram-backend.herokuapp.com/api/upload`,
-      // headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`},'
-      headers:{ "uploadfilename": fileName },
-      data
-    })
-    console.log("uploadPostImage" ,result);
-    
+export const createNewPost = createAsyncThunk(
+  "counter/createNewPost",
+  async (data, { rejectWithValue }) => {
+    try {
+      const result = await axios.request({
+        method: "post",
+        url: `https://trekgram-backend.herokuapp.com/api/post`,
+        headers: {
+          authorization: `Bearer ${utils.getLocalStorage(
+            authTokenKeyLocalStorage
+          )}`,
+        },
+        data,
+      });
+      console.log("createNewPost result", result);
+      return result.data;
+    } catch (err) {
+      console.log("counter/loadPosts", err);
+      return rejectWithValue("Failed to create post");
+    }
   }
-  catch(err){
-    console.log("counter/loadPosts",err)
-    return rejectWithValue("Failed to load post")
-  }
-});
+);
 
-export const createNewPost = createAsyncThunk("counter/createNewPost", async (data,{rejectWithValue}) => {
-  try{
-    const result = await axios.request({
-      method:'post',
-      url:`https://trekgram-backend.herokuapp.com/api/post`,
-      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`},
-      data
-    })
-    console.log("createNewPost result" ,result);
-    return result.data;
+export const likePost = createAsyncThunk(
+  "counter/likePost",
+  async ({ id, userId }, { rejectWithValue }) => {
+    try {
+      console.log("data like Post", { id, userId });
+      const result = await axios.request({
+        method: "put",
+        url: `https://trekgram-backend.herokuapp.com/api/post/${id}/like`,
+        headers: {
+          authorization: `Bearer ${utils.getLocalStorage(
+            authTokenKeyLocalStorage
+          )}`,
+        },
+        data: { userId: userId },
+      });
+      console.log("likePost result", result);
+      return result.data;
+    } catch (err) {
+      console.log("counter/likePost", err);
+      return rejectWithValue("Failed to like/unlike post");
+    }
   }
-  catch(err){
-    console.log("counter/loadPosts",err)
-    return rejectWithValue("Failed to create post")
-  }
-});
+);
 
-export const likePost = createAsyncThunk("counter/likePost",async ({id,userId},{rejectWithValue})=>{
-  try{
-    console.log("data like Post",{id,userId})
-    const result = await axios.request({
-      method:'put',
-      url:`https://trekgram-backend.herokuapp.com/api/post/${id}/like`,
-      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`},
-      data: {userId:userId}
-    })
-    console.log("likePost result" ,result);
-    return result.data;
+export const deletePost = createAsyncThunk(
+  "counter/deletePost",
+  async ({ postId, userId }, { rejectWithValue }) => {
+    try {
+      console.log("data like Post", { postId, userId });
+      const result = await axios.request({
+        method: "delete",
+        url: `https://trekgram-backend.herokuapp.com/api/post/${postId}`,
+        headers: {
+          authorization: `Bearer ${utils.getLocalStorage(
+            authTokenKeyLocalStorage
+          )}`,
+        },
+        data: { userId: userId },
+      });
+      console.log("likePost result", result);
+      return postId;
+    } catch (err) {
+      console.log("counter/likePost", err);
+      return rejectWithValue("Failed to like/unlike post");
+    }
   }
-  catch(err){
-    console.log("counter/likePost",err)
-    return rejectWithValue("Failed to like/unlike post")
-  }
-});
+);
 
-export const deletePost = createAsyncThunk("counter/deletePost",async ({postId,userId},{rejectWithValue})=>{
-  try{
-    console.log("data like Post",{postId,userId})
-    const result = await axios.request({
-      method:'delete',
-      url:`https://trekgram-backend.herokuapp.com/api/post/${postId}`,
-      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`},
-      data: {userId:userId}
-    })
-    console.log("likePost result" ,result);
-    return postId;
+export const bookmarkPost = createAsyncThunk(
+  "counter/bookmarkPost",
+  async ({ postId }, { rejectWithValue }) => {
+    try {
+      console.log("data like Post", { postId });
+      const result = await axios.request({
+        method: "put",
+        url: `https://trekgram-backend.herokuapp.com/api/post/${postId}/bookmark`,
+        headers: {
+          authorization: `Bearer ${utils.getLocalStorage(
+            authTokenKeyLocalStorage
+          )}`,
+        },
+        // data: {userId:userId}
+      });
+      console.log("likePost result", result);
+      return postId;
+    } catch (err) {
+      console.log("counter/likePost", err);
+      return rejectWithValue("Failed to like/unlike post");
+    }
   }
-  catch(err){
-    console.log("counter/likePost",err)
-    return rejectWithValue("Failed to like/unlike post")
-  }
-})
+);
 
-export const bookmarkPost = createAsyncThunk("user/bookmarkPost",async ({postId},{rejectWithValue})=>{
-  try{
-    console.log("data like Post",{postId})
-    const result = await axios.request({
-      method:'put',
-      url:`https://trekgram-backend.herokuapp.com/api/post/${postId}/bookmark`,
-      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`},
-      // data: {userId:userId}
-    })
-    console.log("likePost result" ,result);
-    return postId;
+export const addComment = createAsyncThunk(
+  "counter/addComment",
+  async ({ postId, comment, profilePicture, userId, username }, { rejectWithValue }) => {
+    try {
+      console.log("data like Post", { postId });
+      const result = await axios.request({
+        method: "put",
+        url: `http://localhost:8800/api/post/${postId}/comment`,
+        headers: {
+          authorization: `Bearer ${utils.getLocalStorage(
+            authTokenKeyLocalStorage
+          )}`,
+        },
+        data: { comment: comment },
+      });
+      console.log("likePost result", result);
+      return { postId, comment, profilePicture, userId, username };
+    } catch (err) {
+      console.log("counter/likePost", err);
+      return rejectWithValue("Failed to like/unlike post");
+    }
   }
-  catch(err){
-    console.log("counter/likePost",err)
-    return rejectWithValue("Failed to like/unlike post")
-  }
-})
-
+);
 
 export const counterSlice = createSlice({
   name: "counter",
@@ -151,9 +203,9 @@ export const counterSlice = createSlice({
       state.status = "fulfilled";
       state.posts = action.payload;
     },
-    [loadPosts.rejected]:(state,action)=>{
+    [loadPosts.rejected]: (state, action) => {
       state.error = true;
-      state.errorMessage=action.payload
+      state.errorMessage = action.payload;
     },
     // upload image
     [uploadPostImage.pending]: (state) => {
@@ -163,9 +215,9 @@ export const counterSlice = createSlice({
       console.log("action posts", action);
       state.status = "fulfilled";
     },
-    [uploadPostImage.rejected]:(state,action)=>{
+    [uploadPostImage.rejected]: (state, action) => {
       state.imageUploadError = true;
-      state.imageUploadErrorMessage=action.payload
+      state.imageUploadErrorMessage = action.payload;
     },
     // createNew post
     [createNewPost.pending]: (state) => {
@@ -173,13 +225,13 @@ export const counterSlice = createSlice({
     },
     [createNewPost.fulfilled]: (state, action) => {
       console.log("action posts", action);
-      state.postCreatedStatus = "fulfilled"
-      state.posts = [action.payload.post,...state.posts];
+      state.postCreatedStatus = "fulfilled";
+      state.posts = [action.payload.post, ...state.posts];
       // state.posts = action.payload;
     },
-    [createNewPost.rejected]:(state,action)=>{
+    [createNewPost.rejected]: (state, action) => {
       state.postCreatedStatus = true;
-      state.postCreatedMessage=action.payload
+      state.postCreatedMessage = action.payload;
     },
     // delete post
     [deletePost.pending]: (state) => {
@@ -188,10 +240,39 @@ export const counterSlice = createSlice({
     [deletePost.fulfilled]: (state, action) => {
       console.log("delete post", action);
       // state.postCreatedStatus = "fulfilled"
-      state.posts = state.posts.filter((post)=>post._id !== action.payload)
+      state.posts = state.posts.filter((post) => post._id !== action.payload);
       // state.posts = action.payload;
     },
-    [deletePost.rejected]:(state,action)=>{
+    [deletePost.rejected]: (state, action) => {
+      // state.postCreatedStatus = true;
+      // state.postCreatedMessage=action.payload
+    },
+    [addComment.pending]: (state) => {
+      // state.postCreatedStatus = "loading";
+    },
+    [addComment.fulfilled]: (state, action) => {
+      console.log("delete post", action);
+      // state.postCreatedStatus = "fulfilled"
+      state.posts = state.posts.filter((post) => post._id !== action.payload);
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload.postId
+          ? {
+              ...post,
+              comments: [
+                ...post.comments,
+                {
+                  userId: action.payload.userId,
+                  comment: action.payload.comment,
+                  profilePicture: action.payload.profilePicture,
+                  username:action.payload.username
+                },
+              ],
+            }
+          : post
+      );
+      // state.posts = action.payload;
+    },
+    [addComment.rejected]: (state, action) => {
       // state.postCreatedStatus = true;
       // state.postCreatedMessage=action.payload
     },

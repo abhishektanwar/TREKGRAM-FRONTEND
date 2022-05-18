@@ -12,14 +12,17 @@ import {} from "react-router-dom";
 import Button from "../Buttons/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addComment,
   bookmarkPost,
   deletePost,
   likePost,
 } from "../../reducers/counterSlice";
 import { useState } from "react";
+import { InputField } from "..";
+import {format} from 'timeago.js'
 const Post = ({ post }) => {
   const { user: currentUser } = useSelector((state) => state.user);
-  const { username, userId, desc, comments, likes, profilePrcture, createdAt } =
+  const { username, userId, desc, comments, likes, profilePicture, createdAt } =
     post;
   const dispatch = useDispatch();
   const [postLikes, setPostLikes] = useState(likes.length);
@@ -27,6 +30,8 @@ const Post = ({ post }) => {
   const [isBookmarked, setIsBookmarked] = useState(
     currentUser.bookmarks.includes(post._id)
   );
+  const [comment, setComment] = useState("");
+  const [showCommentBox, setShowCommentBox] = useState(false);
   // const isLiked = likes.includes(currentUser._id)
   const handlePostLike = () => {
     dispatch(likePost({ id: post._id, userId: currentUser._id }));
@@ -56,7 +61,8 @@ const Post = ({ post }) => {
               {username ?? "<username>"}
             </span>
             <span className="body-typo-sm text-regular-weight post-time">
-              {new Date(createdAt).toLocaleDateString()}
+              {/* {new Date(createdAt).toLocaleDateString()} */}
+              {format(createdAt)}
             </span>
           </div>
           <div className="post-top-right">
@@ -113,11 +119,70 @@ const Post = ({ post }) => {
               {postLikes} likes
             </span>
           </div>
-          <div className="post-bottom-left"></div>
-          <span className="post-comment-counter body-typo-md text-medium-weight pointer">
+          <span
+            className="post-comment-counter body-typo-md text-medium-weight pointer"
+            onClick={() => setShowCommentBox((prev) => !prev)}
+          >
             {comments.length} comments
           </span>
         </div>
+        {showCommentBox ? (
+          <div className="comments-container">
+            <div className="comment-box">
+              <InputField
+                type="text"
+                name="comment-input"
+                id="comment-input"
+                required={true}
+                validation={true}
+                placeholder="Enter your comment"
+                parentClass="comment-input-field-parent"
+                customClass="comment-input-field"
+                textarea={false}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <Button
+                buttonText="Comment"
+                onClick={(e) => {
+                  dispatch(
+                    addComment({
+                      postId: post._id,
+                      comment: comment,
+                      profilePicture: currentUser.profilePicture,
+                      userId:currentUser._id,
+                      username:currentUser.username
+                    })
+                  );
+                  setComment("")
+                }}
+                buttonStyle="comment-btn btn-outline-primary body-typo-md"
+              />
+            </div>
+            {comments.length > 0
+              ? comments.map((comment) => {
+                  return (
+                    <div className="comment">
+                      <div class="avatar avatar-xs">
+                        <img
+                          src={comment.profilePicture ? comment.profilePicture : dummy}
+                          alt="avatar"
+                          loading="lazy"
+                          className="responsive-img circular-img"
+                        />
+                      </div>
+                      <div className="flex-column comment-text">
+                        <span className="body-typo-sm text-medium-weight">{comment.username}</span>
+                      <span className="body-typo-sm text-regular-weight">
+                        {comment.comment}
+                      </span>
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
+          </div>
+        ) : null}
       </div>
     </div>
   );

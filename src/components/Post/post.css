@@ -40,3 +40,39 @@
 .post-top-right{
   display: flex;
 }
+
+.comment-btn{
+  padding: 5px;
+  display: flex;
+  margin:1rem 0 0 0;
+  margin-left: auto;
+
+}
+
+.comment-btn:hover{
+  background-color: unset;
+  color:var(--primary-color)
+}
+
+.comment-input-field-parent{
+  width:inherit;
+}
+
+.comment-input-field:hover{
+  border: 1px solid var(--black-color);
+}
+
+.comments-container{
+  margin-top: 1.2rem;
+}
+
+.comment{
+  display: flex;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+
+.comment-text{
+  margin-left:1rem ;
+  color: var(--black-color);
+}

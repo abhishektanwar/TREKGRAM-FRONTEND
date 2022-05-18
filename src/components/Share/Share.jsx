@@ -38,7 +38,7 @@ const Share = () => {
         <div className="share-top-section flex-row flex-align-item-center">
           <div class="avatar avatar-sm">
             <img
-              src={user?.profilePicture ?? dummy}
+              src={user?.profilePicture ? user?.profilePicture : dummy}
               alt="avatar"
               loading="lazy"
               className="responsive-img circular-img"
