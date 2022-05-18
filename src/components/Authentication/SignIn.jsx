@@ -39,12 +39,6 @@ const SignIn = () => {
     
   };
 
-  // useEffect(()=>{
-  //   if(user && authToken){
-  //     navigate("/");
-  //   }
-  // },[user])
-
   return (
     <div className="auth-body">
       {status === "pending" && <Loader />}

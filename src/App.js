@@ -13,7 +13,6 @@ import utils from './utils';
 function App() {
   const {user,authToken} = useSelector((state)=>state.user);
   const dispatch = useDispatch();
-// trekgram-auth-token
   useEffect(()=>{
     const token = utils.getLocalStorage("TREKGRAM_AUTH_TOKEN")
     if(!user && token){
