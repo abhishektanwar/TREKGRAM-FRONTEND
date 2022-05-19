@@ -60,7 +60,7 @@ const Post = ({ post }) => {
           <div className="post-top-left flex-row flex-align-item-center">
             <div class="avatar avatar-sm">
               <img
-                src={dummy}
+                src={profilePicture ? profilePicture : dummy}
                 alt="avatar"
                 loading="lazy"
                 className="responsive-img circular-img"

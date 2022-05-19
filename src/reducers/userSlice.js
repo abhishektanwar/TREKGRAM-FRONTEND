@@ -81,7 +81,7 @@ export const followUser = createAsyncThunk("user/followUser",async ({targetUserI
     console.log("follow data",targetUserId,userId);
     const result = await axios.request({
       method: "put",
-      url: `http://localhost:8800/api/user/${targetUserId}/follow`,
+      url: `${BASE_API_URL}/api/user/${targetUserId}/follow`,
       headers: {
         authorization: `Bearer ${utils.getLocalStorage(
           authTokenKeyLocalStorage
@@ -104,7 +104,7 @@ export const unFollowUser = createAsyncThunk("user/unFollowUser",async ({targetU
     console.log("unfollow data",targetUserId,userId);
     const result = await axios.request({
       method: "put",
-      url: `http://localhost:8800/api/user/${targetUserId}/unfollow`,
+      url: `${BASE_API_URL}/api/user/${targetUserId}/unfollow`,
       headers: {
         authorization: `Bearer ${utils.getLocalStorage(
           authTokenKeyLocalStorage
@@ -119,7 +119,29 @@ export const unFollowUser = createAsyncThunk("user/unFollowUser",async ({targetU
     // to reject
     return rejectWithValue("Failed to follow user")
   }
-})
+});
+
+export const updateUser = createAsyncThunk("user/updateUser",async ({userId,data},{rejectWithValue})=>{
+  try {
+    console.log("update data",userId,data);
+    const result = await axios.request({
+      method: "put",
+      url: `${BASE_API_URL}/api/user/${userId}`,
+      headers: {
+        authorization: `Bearer ${utils.getLocalStorage(
+          authTokenKeyLocalStorage
+        )}`,
+      },
+      data
+    });
+    console.log("update user result", result);
+    return data;
+  } catch (err) {
+    console.log("user/updateUser", err);
+    // to reject
+    return rejectWithValue("Failed to update user")
+  }
+});
 
 export const userSlice = createSlice({
   name: "user",
@@ -193,6 +215,19 @@ export const userSlice = createSlice({
       state.visitingUser = {...state.visitingUser,followers:[...state.visitingUser.followers.filter((foll)=>foll._id !== action.payload.userId)]}
     },
     [unFollowUser.rejected]:(state,action)=>{
+      state.status = "idle";
+      state.error = action.payload
+    },
+    [updateUser.pending]:(state)=>{
+      state.status = "pending"
+    },
+    [updateUser.fulfilled]:(state,action)=>{
+      state.status = "fulfulled"
+      // state.user = {...state.user,following:[...state.user.following.filter((foll)=>foll._id !== action.payload.targetUserId)]}
+      // state.visitingUser = {...state.visitingUser,followers:[...state.visitingUser.followers.filter((foll)=>foll._id !== action.payload.userId)]}
+      state.user = {...state.user,...action.payload}
+    },
+    [updateUser.rejected]:(state,action)=>{
       state.status = "idle";
       state.error = action.payload
     }

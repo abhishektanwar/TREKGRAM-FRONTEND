@@ -8,24 +8,28 @@ import {
   LeftSidebar,
   RightSidebar,
 } from "../../components";
+import EditProfile from "../../components/EditProfile/EditProfile";
 import dummy from "../../components/Header/dummy_profile_img.png";
+import ModalWrapper from "../../components/ModalWrapper";
+import { useModal } from "../../contexts/ModalContext";
 import { loadPosts, loadUserPosts } from "../../reducers/postSlice";
 import { getUser } from "../../reducers/userSlice";
 
 import "./profile.css";
 import ProfileRightBar from "./ProfileRightBar";
 const Profile = () => {
-  const { user,visitingUser } = useSelector((state) => state.user);
+  const { user, visitingUser } = useSelector((state) => state.user);
   const { userPosts, status, error, filterType } = useSelector(
     (state) => state.counter
   );
-  const {userId} = useParams();
+  const { userId } = useParams();
   const userProfile = user?._id === userId ? user : visitingUser;
   const dispatch = useDispatch();
+  const { showModal, hideModal } = useModal();
   useEffect(() => {
     dispatch(loadUserPosts({ userId }));
-    if(user?._id !== userId){
-      dispatch(getUser({userId}))
+    if (user?._id !== userId) {
+      dispatch(getUser({ userId }));
     }
   }, [userId]);
 
@@ -40,7 +44,9 @@ const Profile = () => {
           <div className="profile-right-top flex-column">
             <div className="profile-cover">
               <img
-                src={dummy}
+                src={
+                  userProfile?.coverPicture ? userProfile?.coverPicture : dummy
+                }
                 alt="avatar"
                 loading="lazy"
                 className="responsive-img profile-cover-img"
@@ -48,7 +54,11 @@ const Profile = () => {
               <div className="profile-user-info">
                 <div className="avatar avatar-md profile-user-img">
                   <img
-                    src={dummy}
+                    src={
+                      userProfile?.profilePicture
+                        ? userProfile?.profilePicture
+                        : dummy
+                    }
                     alt="avatar"
                     loading="lazy"
                     className="responsive-img circular-img "
@@ -59,17 +69,20 @@ const Profile = () => {
             <div className="user-info flex-column">
               <h4 className="margin0 user-name">{userProfile?.username}</h4>
               {/* <span className="body-typo-md user-handle">@user_handle</span> */}
-              <Button
-                buttonText="Edit Profile"
-                buttonStyle="edit-profile-btn"
-              />
-              <span className="user-bio body-typo-sm">
-                A paragraph is a series of related sentences developing a
-                central idea, called the topic. Try to think about paragraphs in
-                terms of thematic unity: a paragraph is a sentence or a group of
-                sentences that supports one central, unified ideas of thematic
-                unity: a paragraph is a sentence or a group of{" "}
-              </span>
+              {user?._id === userId && (
+                <Button
+                  buttonText="Edit Profile"
+                  buttonStyle="edit-profile-btn"
+                  onClick={() => {
+                    showModal();
+                  }}
+                />
+              )}
+
+              <ModalWrapper>
+                <EditProfile />
+              </ModalWrapper>
+              <span className="user-bio body-typo-sm">{userProfile?.bio}</span>
             </div>
           </div>
           <div className="profile-right-bottom">

@@ -24,8 +24,6 @@ const Share = () => {
 
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
-  console.log("isEduting",isEditingPost)
-  console.log("file",file,updatingPost)
 
   const dispatch = useDispatch();
 

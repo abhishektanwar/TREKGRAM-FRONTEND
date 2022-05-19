@@ -48,7 +48,7 @@ export const loadUserPosts = createAsyncThunk(
     try {
       const result = await axios.request({
         method: "get",
-        url: `http://localhost:8800/api/post/${userId}/user`,
+        url: `https://trekgram-backend.herokuapp.com/api/post/${userId}/user`,
         headers: {
           authorization: `Bearer ${utils.getLocalStorage(
             authTokenKeyLocalStorage
