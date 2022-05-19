@@ -6,7 +6,7 @@ import Button from "../Buttons/Button";
 import Post from "../Post/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { createNewPost, updatePost, uploadPostImage } from "../../reducers/counterSlice";
+import { createNewPost, updatePost, uploadPostImage } from "../../reducers/postSlice";
 import { Loader } from "../Loader/Loader";
 const Share = () => {
   const { user } = useSelector((state) => state.user);

@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { latestPostsFilter } from "../helpers/filters/latestPostsFilter";
 import utils from "../utils";
 const authTokenKeyLocalStorage = "TREKGRAM_AUTH_TOKEN";
 const initialState = {
@@ -207,7 +206,7 @@ export const addComment = createAsyncThunk(
   }
 );
 
-export const counterSlice = createSlice({
+export const postSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
@@ -341,6 +340,6 @@ export const {
   startPostEdit,
   finishPostEdit,
   filterPosts,
-} = counterSlice.actions;
+} = postSlice.actions;
 
-export default counterSlice.reducer;
+export default postSlice.reducer;

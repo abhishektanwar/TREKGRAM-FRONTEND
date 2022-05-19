@@ -3,7 +3,7 @@ import { FilterList } from "@material-ui/icons";
 import Button from "../Buttons/Button";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterPosts } from "../../reducers/counterSlice";
+import { filterPosts } from "../../reducers/postSlice";
 const PostFilter = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { filterType } = useSelector((state) => state.counter);

@@ -18,7 +18,7 @@ import {
   deletePost,
   likePost,
   startPostEdit,
-} from "../../reducers/counterSlice";
+} from "../../reducers/postSlice";
 import { useState } from "react";
 import { InputField } from "..";
 import { format } from "timeago.js";

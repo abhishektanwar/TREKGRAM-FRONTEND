@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Feed, Header, LeftSidebar, RightSidebar } from "../../components";
 import { latestPostsFilter } from "../../helpers/filters/latestPostsFilter";
 import { trendingPostsFilter } from "../../helpers/filters/trendingPostsFilter";
-import { loadPosts } from "../../reducers/counterSlice";
+import { loadPosts } from "../../reducers/postSlice";
 import "./home.css";
 const Home = () => {
   const dispatch = useDispatch();

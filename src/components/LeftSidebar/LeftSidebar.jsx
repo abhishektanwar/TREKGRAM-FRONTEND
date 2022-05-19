@@ -8,7 +8,7 @@ import {
 import Button from "../Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { increment, loadPosts } from "../../reducers/counterSlice";
+import { increment, loadPosts } from "../../reducers/postSlice";
 import { Loader } from "../Loader/Loader";
 import { useEffect } from "react";
 
