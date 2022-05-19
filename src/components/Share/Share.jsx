@@ -8,12 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
   createNewPost,
+  finishPostEdit,
   updatePost,
   uploadPostImage,
-} from "../../reducers/counterSlice";
+} from "../../reducers/postSlice";
 import { Loader } from "../Loader/Loader";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
+import { useParams } from "react-router";
 const Share = () => {
   const { user } = useSelector((state) => state.user);
   const { postCreatedStatus, isEditingPost, updatingPost } = useSelector(
@@ -22,6 +24,9 @@ const Share = () => {
 
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
+  console.log("isEduting",isEditingPost)
+  console.log("file",file,updatingPost)
+
   const dispatch = useDispatch();
 
   const handleSharePost = async (e) => {
@@ -32,7 +37,10 @@ const Share = () => {
     };
 
     if (file !== null) {
-      const imageRef = ref(storage, `images/${file.name + new Date().toLocaleTimeString()}`);
+      const imageRef = ref(
+        storage,
+        `images/${file.name + new Date().toLocaleTimeString()}`
+      );
       const uploadByteRes = await uploadBytes(imageRef, file);
       const downloadUrl = await getDownloadURL(imageRef);
       newPost.img = downloadUrl;
@@ -41,10 +49,23 @@ const Share = () => {
     dispatch(createNewPost(newPost));
   };
 
-  const handleUpdatePost = () => {
+  const handleUpdatePost = async () => {
     console.log("updating post", updatingPost);
+    let downloadUrl = "";
+    if (file !== null) {
+      const imageRef = ref(
+        storage,
+        `images/${file.name + new Date().toLocaleTimeString()}`
+      );
+      const uploadByteRes = await uploadBytes(imageRef, file);
+      downloadUrl = await getDownloadURL(imageRef);
+      // newPost.img = downloadUrl;
+    }
     dispatch(
-      updatePost({ postId: updatingPost._id, data: { desc: description } })
+      updatePost({
+        postId: updatingPost._id,
+        data: { desc: description, img: downloadUrl ?? updatingPost.img },
+      })
     );
   };
   useEffect(() => {
@@ -58,8 +79,8 @@ const Share = () => {
   useEffect(() => {
     if (isEditingPost) {
       setDescription(updatingPost.desc);
+      setFile(updatingPost.img)
     }
-    // setDescription()
   }, [isEditingPost]);
   return (
     <div className="share-container">
@@ -92,7 +113,7 @@ const Share = () => {
             <img
               src="share-img"
               className="responsive-img"
-              src={URL.createObjectURL(file)}
+              src={ isEditingPost ? updatingPost?.img : URL.createObjectURL(file)}
               alt=""
             />
             <Cancel
@@ -142,13 +163,26 @@ const Share = () => {
             /> */}
         </div>
         {/* </form> */}
-        <Button
-          buttonText={isEditingPost ? "Update Post" : "Post"}
-          onClick={(e) =>
-            isEditingPost ? handleUpdatePost(e) : handleSharePost(e)
-          }
-          buttonStyle="post-btn"
-        />
+        <div className="create-update-post-btn-container">
+          <Button
+            buttonText={isEditingPost ? "Update Post" : "Post"}
+            onClick={(e) =>
+              isEditingPost ? handleUpdatePost(e) : handleSharePost(e)
+            }
+            buttonStyle="post-btn"
+          />
+          {isEditingPost && (
+            <Button
+              buttonText={"Cancel"}
+              onClick={(e) => {
+                dispatch(finishPostEdit())
+                setDescription("")
+                setFile(null)
+              }}
+              buttonStyle="post-btn secondary-button"
+            />
+          )}
+        </div>
       </div>
     </div>
   );

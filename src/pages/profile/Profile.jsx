@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router";
 import {
   Button,
   Feed,
@@ -8,16 +9,25 @@ import {
   RightSidebar,
 } from "../../components";
 import dummy from "../../components/Header/dummy_profile_img.png";
-import { loadPosts, loadUserPosts } from "../../reducers/counterSlice";
+import { loadPosts, loadUserPosts } from "../../reducers/postSlice";
+import { getUser } from "../../reducers/userSlice";
 
 import "./profile.css";
 import ProfileRightBar from "./ProfileRightBar";
 const Profile = () => {
-  const { user } = useSelector((state) => state.user);
+  const { user,visitingUser } = useSelector((state) => state.user);
+  const { userPosts, status, error, filterType } = useSelector(
+    (state) => state.counter
+  );
+  const {userId} = useParams();
+  const userProfile = user?._id === userId ? user : visitingUser;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadUserPosts({ userId: user?._id }));
-  }, []);
+    dispatch(loadUserPosts({ userId }));
+    if(user?._id !== userId){
+      dispatch(getUser({userId}))
+    }
+  }, [userId]);
 
   return (
     <div>
@@ -47,9 +57,12 @@ const Profile = () => {
               </div>
             </div>
             <div className="user-info flex-column">
-              <h4 className="margin0 user-name">user name</h4>
-              <span className="body-typo-md user-handle">@user_handle</span>
-              <Button buttonText="Edit Profile" buttonStyle="edit-profile-btn" />
+              <h4 className="margin0 user-name">{userProfile?.username}</h4>
+              {/* <span className="body-typo-md user-handle">@user_handle</span> */}
+              <Button
+                buttonText="Edit Profile"
+                buttonStyle="edit-profile-btn"
+              />
               <span className="user-bio body-typo-sm">
                 A paragraph is a series of related sentences developing a
                 central idea, called the topic. Try to think about paragraphs in
@@ -60,7 +73,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="profile-right-bottom">
-            <Feed posts={finalFilteredPosts} status={status} error={error} />
+            <Feed posts={userPosts} status={status} error={error} />
             <RightSidebar component={<ProfileRightBar />} />
           </div>
         </div>

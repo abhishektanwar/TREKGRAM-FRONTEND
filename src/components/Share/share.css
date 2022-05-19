@@ -33,7 +33,7 @@
   padding: 4px;
   border-radius: 5px;
   margin-top: 1rem;
-  margin-left: auto;
+  /* margin-left: auto; */
 }
 
 .share-action-btn{
@@ -62,4 +62,9 @@
   right: 0;
   cursor: pointer;
   opacity: 0.7;
+}
+
+.create-update-post-btn-container{
+  display: flex;
+  justify-content: space-between;
 }

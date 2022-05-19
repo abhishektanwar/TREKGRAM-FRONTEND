@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { latestPostsFilter } from "../helpers/filters/latestPostsFilter";
 import utils from "../utils";
 const authTokenKeyLocalStorage = "TREKGRAM_AUTH_TOKEN";
 const initialState = {
@@ -49,7 +48,7 @@ export const loadUserPosts = createAsyncThunk(
     try {
       const result = await axios.request({
         method: "get",
-        url: `https://trekgram-backend.herokuapp.com/api/post/${userId}/user`,
+        url: `http://localhost:8800/api/post/${userId}/user`,
         headers: {
           authorization: `Bearer ${utils.getLocalStorage(
             authTokenKeyLocalStorage
@@ -230,7 +229,7 @@ export const addComment = createAsyncThunk(
   }
 );
 
-export const counterSlice = createSlice({
+export const postSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
@@ -264,6 +263,7 @@ export const counterSlice = createSlice({
     },
     [loadPosts.rejected]: (state, action) => {
       state.error = true;
+      state.status = "idle";
       state.errorMessage = action.payload;
     },
     // upload image
@@ -286,6 +286,8 @@ export const counterSlice = createSlice({
       console.log("action posts", action);
       state.postCreatedStatus = "fulfilled";
       state.posts = [action.payload.post, ...state.posts];
+      // update user posts
+      state.userPosts = [action.payload.post, ...state.userPosts];
       // state.posts = action.payload;
     },
     [createNewPost.rejected]: (state, action) => {
@@ -300,6 +302,8 @@ export const counterSlice = createSlice({
       console.log("delete post", action);
       // state.postCreatedStatus = "fulfilled"
       state.posts = state.posts.filter((post) => post._id !== action.payload);
+      // delete userPost if found
+      state.userPosts = state.userPosts.filter((post) => post._id !== action.payload);
       // state.posts = action.payload;
     },
     [deletePost.rejected]: (state, action) => {
@@ -310,10 +314,27 @@ export const counterSlice = createSlice({
       // state.postCreatedStatus = "loading";
     },
     [addComment.fulfilled]: (state, action) => {
-      console.log("delete post", action);
+      console.log("comment post", action);
       // state.postCreatedStatus = "fulfilled"
       state.posts = state.posts.filter((post) => post._id !== action.payload);
       state.posts = state.posts.map((post) =>
+        post._id === action.payload.postId
+          ? {
+              ...post,
+              comments: [
+                ...post.comments,
+                {
+                  userId: action.payload.userId,
+                  comment: action.payload.comment,
+                  profilePicture: action.payload.profilePicture,
+                  username: action.payload.username,
+                },
+              ],
+            }
+          : post
+      );
+      // update user posts if found
+      state.userPosts = state.userPosts.map((post) =>
         post._id === action.payload.postId
           ? {
               ...post,
@@ -346,6 +367,12 @@ export const counterSlice = createSlice({
           ? { ...post, desc: action.payload.data.desc }
           : post
       );
+      // udpate user post if found
+      state.userPosts = state.userPosts.map((post) =>
+        post._id === action.payload.postId
+          ? { ...post, desc: action.payload.data.desc }
+          : post
+      );
       state.isEditingPost = false;
       state.updatingPost = {};
       // state.posts = action.payload;
@@ -365,6 +392,7 @@ export const counterSlice = createSlice({
     },
     [loadUserPosts.rejected]: (state, action) => {
       state.error = true;
+      state.status = "idle";
       state.errorMessage = action.payload;
     },
   },
@@ -376,6 +404,6 @@ export const {
   startPostEdit,
   finishPostEdit,
   filterPosts,
-} = counterSlice.actions;
+} = postSlice.actions;
 
-export default counterSlice.reducer;
+export default postSlice.reducer;

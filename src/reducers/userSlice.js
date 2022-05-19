@@ -6,7 +6,9 @@ const BASE_API_URL = 'https://trekgram-backend.herokuapp.com'
 const initialState = {
   user: null,
   authToken: null,
-  status:"idle"
+  status:"idle",
+  visitingUser:null,
+  error:null,
 };
 
 export const login = createAsyncThunk("user/login", async (data) => {
@@ -41,6 +43,22 @@ export const verifyUser = createAsyncThunk("user/verifyUser",async()=>{
   }
 })
 
+export const getUser = createAsyncThunk("user/getUser",async({userId},{rejectWithValue})=>{
+  try {
+    const result = await axios.request({
+      method: "get",
+      url: `${BASE_API_URL}/api/user/${userId}`,
+      headers:{authorization:`Bearer ${utils.getLocalStorage(authTokenKeyLocalStorage)}`}
+    });
+    console.log("get user result", result);
+    return result.data;
+  } catch (err) {
+    console.log("user/verify user", err);
+    // to reject
+    return rejectWithValue("failed to get user")
+  }
+})
+
 export const register = createAsyncThunk("user/register",async (data)=>{
   try {
     console.log("register data",data);
@@ -57,6 +75,51 @@ export const register = createAsyncThunk("user/register",async (data)=>{
     // return rejectWithValue, call this fn
   }
 }) 
+
+export const followUser = createAsyncThunk("user/followUser",async ({targetUserId,userId},{rejectWithValue})=>{
+  try {
+    console.log("follow data",targetUserId,userId);
+    const result = await axios.request({
+      method: "put",
+      url: `http://localhost:8800/api/user/${targetUserId}/follow`,
+      headers: {
+        authorization: `Bearer ${utils.getLocalStorage(
+          authTokenKeyLocalStorage
+        )}`,
+      },
+      data:{"userId":userId}
+
+    });
+    console.log("follow user result", result);
+    return {userId,targetUserId};
+  } catch (err) {
+    console.log("user/register", err);
+    // to reject
+    return rejectWithValue("Failed to follow user")
+  }
+}) 
+
+export const unFollowUser = createAsyncThunk("user/unFollowUser",async ({targetUserId,userId},{rejectWithValue})=>{
+  try {
+    console.log("unfollow data",targetUserId,userId);
+    const result = await axios.request({
+      method: "put",
+      url: `http://localhost:8800/api/user/${targetUserId}/unfollow`,
+      headers: {
+        authorization: `Bearer ${utils.getLocalStorage(
+          authTokenKeyLocalStorage
+        )}`,
+      },
+      data:{"userId":userId}
+    });
+    console.log("unfollow user result", result);
+    return {userId,targetUserId};
+  } catch (err) {
+    console.log("user/register", err);
+    // to reject
+    return rejectWithValue("Failed to follow user")
+  }
+})
 
 export const userSlice = createSlice({
   name: "user",
@@ -98,6 +161,41 @@ export const userSlice = createSlice({
       state.authToken = action.payload.token
       utils.setLocalStorage(authTokenKeyLocalStorage,action.payload.token)
     },
+    [getUser.pending]:(state)=>{
+      state.status = "pending"
+    },
+    [getUser.fulfilled]:(state,action)=>{
+      state.status = "fulfulled"
+      state.visitingUser = action.payload
+    },
+    [getUser.rejected]:(state,action)=>{
+      state.status = "idle";
+      state.error = action.payload
+    },
+    [followUser.pending]:(state)=>{
+      state.status = "pending"
+    },
+    [followUser.fulfilled]:(state,action)=>{
+      state.status = "fulfulled"
+      state.user = {...state.user,following:[...state.user.following,state.visitingUser]}
+      state.visitingUser = {...state.visitingUser,followers:[...state.visitingUser.followers,state.user]}
+    },
+    [followUser.rejected]:(state,action)=>{
+      state.status = "idle";
+      state.error = action.payload
+    },
+    [unFollowUser.pending]:(state)=>{
+      state.status = "pending"
+    },
+    [unFollowUser.fulfilled]:(state,action)=>{
+      state.status = "fulfulled"
+      state.user = {...state.user,following:[...state.user.following.filter((foll)=>foll._id !== action.payload.targetUserId)]}
+      state.visitingUser = {...state.visitingUser,followers:[...state.visitingUser.followers.filter((foll)=>foll._id !== action.payload.userId)]}
+    },
+    [unFollowUser.rejected]:(state,action)=>{
+      state.status = "idle";
+      state.error = action.payload
+    }
   },
 });
 

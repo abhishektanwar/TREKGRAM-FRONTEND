@@ -18,7 +18,7 @@ import {
   deletePost,
   likePost,
   startPostEdit,
-} from "../../reducers/counterSlice";
+} from "../../reducers/postSlice";
 import { useState } from "react";
 import { InputField } from "..";
 import { format } from "timeago.js";
@@ -28,15 +28,16 @@ const Post = ({ post }) => {
     post;
   const dispatch = useDispatch();
   const [postLikes, setPostLikes] = useState(likes.length);
-  const [isLiked, setIsLiked] = useState(likes.includes(currentUser._id));
+  const [isLiked, setIsLiked] = useState(likes.includes(currentUser?._id));
   const [isBookmarked, setIsBookmarked] = useState(
-    currentUser.bookmarks.includes(post._id)
+    // currentUser?.bookmarks.includes(post._id)
+    true
   );
   const [comment, setComment] = useState("");
   const [showCommentBox, setShowCommentBox] = useState(false);
   // const isLiked = likes.includes(currentUser._id)
   const handlePostLike = () => {
-    dispatch(likePost({ id: post._id, userId: currentUser._id }));
+    dispatch(likePost({ id: post._id, userId: currentUser?._id }));
     setIsLiked((prev) => !prev);
     setPostLikes((prev) => (isLiked ? prev - 1 : prev + 1));
   };
@@ -48,6 +49,7 @@ const Post = ({ post }) => {
   };
 
   const handlePostEdit = (post) => {
+    window.scroll(0,0)
     dispatch(startPostEdit(post))
   }
 
@@ -72,7 +74,7 @@ const Post = ({ post }) => {
             </span>
           </div>
           <div className="post-top-right">
-            {post.userId === currentUser._id ? (
+            {post.userId === currentUser?._id ? (
               <>
                 <Button
                   icon={<Edit fontSize="large" />}
@@ -84,7 +86,7 @@ const Post = ({ post }) => {
                   buttonStyle="secondary-button margin0 padding0"
                   onClick={() =>
                     dispatch(
-                      deletePost({ postId: post._id, userId: currentUser._id })
+                      deletePost({ postId: post._id, userId: currentUser?._id })
                     )
                   }
                 />
@@ -162,9 +164,9 @@ const Post = ({ post }) => {
                     addComment({
                       postId: post._id,
                       comment: comment,
-                      profilePicture: currentUser.profilePicture,
-                      userId: currentUser._id,
-                      username: currentUser.username,
+                      profilePicture: currentUser?.profilePicture,
+                      userId: currentUser?._id,
+                      username: currentUser?.username,
                     })
                   );
                   setComment("");

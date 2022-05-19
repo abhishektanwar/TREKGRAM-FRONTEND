@@ -19,13 +19,13 @@ function App() {
     if(!user && token){
       (dispatch(verifyUser()))
     }
-  },[dispatch])
+  },[dispatch,user])
   return (
     <div className="app">
       <Routes>
         <Route element={<PrivateRoute />}>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:userId" element={<Profile />} />
         </Route>
         <Route element={<AuthRoute />}>
           <Route path="/login" element={<Login />} />

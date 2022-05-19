@@ -8,7 +8,7 @@ import {
 import Button from "../Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { increment, loadPosts } from "../../reducers/counterSlice";
+import { increment, loadPosts } from "../../reducers/postSlice";
 import { Loader } from "../Loader/Loader";
 import { useEffect } from "react";
 
@@ -23,7 +23,7 @@ const NavButton = ({ buttonText, icon, onNavBtnClick }) => {
   );
 };
 
-const LeftSidebar = () => {
+const LeftSidebar = ({user}) => {
   const navigate = useNavigate();
   return (
     <div className="left-sidebar-container">
@@ -55,7 +55,7 @@ const LeftSidebar = () => {
                   fontSize="large"
                 />
               }
-              onNavBtnClick={() => navigate("/profile")}
+              onNavBtnClick={() => navigate(`/profile/${user._id}`)}
             />
           </li>
         </ul>
