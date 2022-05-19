@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { latestPostsFilter } from "../helpers/filters/latestPostsFilter";
 import utils from "../utils";
 const authTokenKeyLocalStorage = "TREKGRAM_AUTH_TOKEN";
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   postCreatedMessage: "",
   isEditingPost: false,
   updatingPost: {}, //post that is being updated
+  filterType: null,
 };
 
 // export const loadPosts = createAsyncThunk("counter/loadPosts", () => {
@@ -95,7 +97,7 @@ export const updatePost = createAsyncThunk(
     try {
       const result = await axios.request({
         method: "put",
-        url: `http://localhost:8800/api/post/${postId}`,
+        url: `https://trekgram-backend.herokuapp.com/api/post/${postId}`,
         headers: {
           authorization: `Bearer ${utils.getLocalStorage(
             authTokenKeyLocalStorage
@@ -230,6 +232,9 @@ export const counterSlice = createSlice({
       state.isEditingPost = false;
       state.updatingPost = {};
     },
+    filterPosts: (state, action) => {
+      state.filterType = action.payload;
+    },
   },
   extraReducers: {
     [loadPosts.pending]: (state) => {
@@ -325,7 +330,7 @@ export const counterSlice = createSlice({
           : post
       );
       state.isEditingPost = false;
-      state.updatingPost = {}
+      state.updatingPost = {};
       // state.posts = action.payload;
     },
     [updatePost.rejected]: (state, action) => {
@@ -336,7 +341,12 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { increment, decrement, startPostEdit, finishPostEdit } =
-  counterSlice.actions;
+export const {
+  increment,
+  decrement,
+  startPostEdit,
+  finishPostEdit,
+  filterPosts,
+} = counterSlice.actions;
 
 export default counterSlice.reducer;

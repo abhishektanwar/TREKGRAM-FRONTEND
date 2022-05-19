@@ -1,3 +1,29 @@
+.filter-container{
+  margin-top: 2rem;
+}
 .filter-wrapper{
   background-color: var(--bg-color);
+  padding: 1.4rem;
+}
+
+.filter-top-section{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.filter-top-section > h3{
+  color: var(--black-color);
+}
+
+.filter-bottom-section{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+}
+
+.filter-select-button{
+  border: 2px solid var(--black-color);
+  border-radius: 0;
 }

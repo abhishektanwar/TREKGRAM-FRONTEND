@@ -1,29 +1,40 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Feed, Header, LeftSidebar, RightSidebar } from '../../components'
-import { loadPosts } from '../../reducers/counterSlice'
-import './home.css'
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Feed, Header, LeftSidebar, RightSidebar } from "../../components";
+import { latestPostsFilter } from "../../helpers/filters/latestPostsFilter";
+import { trendingPostsFilter } from "../../helpers/filters/trendingPostsFilter";
+import { loadPosts } from "../../reducers/counterSlice";
+import "./home.css";
 const Home = () => {
-  const dispatch = useDispatch()
-  const {user} = useSelector((state)=>state.user);
-  const {posts,status,error} = useSelector((state)=>state.counter);
-
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const { posts, status, error, filterType } = useSelector(
+    (state) => state.counter
+  );
+  let finalFilteredPosts;
+  if (filterType === "Latest") {
+    finalFilteredPosts = latestPostsFilter(posts);
+  } else if (filterType === "Trending") {
+    finalFilteredPosts = trendingPostsFilter(posts);
+  } else if (filterType === null) {
+    finalFilteredPosts = posts;
+  }
   // const {} = useElec
-  useEffect(()=>{
-    dispatch(loadPosts({userId:user?._id}))
-  },[])
+  useEffect(() => {
+    dispatch(loadPosts({ userId: user?._id }));
+  }, []);
   return (
     <div>
       <nav className="nav-bar shadow-box" id="my-nav-bar">
-          <Header />
+        <Header />
       </nav>
       <div className="flex-row home-container app-container">
         <LeftSidebar />
-        <Feed posts={posts} status={status} error={error} />
+        <Feed posts={finalFilteredPosts} status={status} error={error} />
         <RightSidebar />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
