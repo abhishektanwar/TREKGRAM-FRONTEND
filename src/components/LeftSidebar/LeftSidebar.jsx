@@ -6,7 +6,7 @@ import {
   AccountCircleOutlined,
 } from "@material-ui/icons";
 import Button from "../Buttons/Button";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const NavButton = ({ buttonText, icon, onNavBtnClick }) => {
   return (
