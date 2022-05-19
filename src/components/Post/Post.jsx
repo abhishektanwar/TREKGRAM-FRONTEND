@@ -68,7 +68,6 @@ const Post = ({ post }) => {
               {username ?? "<username>"}
             </span>
             <span className="body-typo-sm text-regular-weight post-time">
-              {/* {new Date(createdAt).toLocaleDateString()} */}
               {format(createdAt)}
             </span>
           </div>
@@ -106,14 +105,14 @@ const Post = ({ post }) => {
         </div>
         <div className="post-middle-section">
           <p className="post-text-body body-typo-md">{desc}</p>
-          {/* {post.img ? (
+          {post.img ? (
             <img
-              src={ post.img ? `data:image/png;base64,${post.img}` : dummy}
+              src={ post.img }
               alt="post-image"
               loading="lazy"
               class="responsive-img"
             />
-            ) : null} */}
+            ) : null}
         </div>
 
         <div className="post-bottom-section flex-row">

@@ -19,11 +19,6 @@ const Header = () => {
   const uploadImage = async () => {
     if(imgUpload === null) return;
     const imageRef = ref(storage,`images/${imgUpload.name + new Date()}`)
-    // uploadBytes(imageRef,imgUpload).then((data)=>{
-    //   alert("Image uploaded")
-    //   console.log("data img upload",data)
-    //   getDownloadURL(ref).then((data)=>console.log("url_data"),data)
-    // })
     const uploadByteRes = await uploadBytes(imageRef,imgUpload)
     console.log("upload bytes",uploadByteRes)
     const downloadUrl = await getDownloadURL(imageRef);
@@ -37,16 +32,6 @@ const Header = () => {
       </Link>
       <SearchBar />
       <div className="nav-section">
-        <Button
-          buttonText={"Homepage"}
-          buttonStyle={"headerButton body-typo-md secondary-button margin0 padding0"}
-          onClick={() => {}}
-        />
-        <Button
-          buttonText={"Timeline"}
-          buttonStyle={"headerButton body-typo-md secondary-button margin0 padding0"}
-          onClick={() => {}}
-        />
       </div>
       <div className="nav-section">
         <Button
@@ -54,15 +39,9 @@ const Header = () => {
           buttonStyle={"headerButton typo-sm "}
           onClick={() => {authToken ? dispatch(logout()) : navigate('/login')}}
         />
-        <input type="file" onChange={(e)=>setImageUpload(e.target.files[0])} />
-        <Button
-          buttonText={"upload img"}
-          buttonStyle={"headerButton typo-sm "}
-          onClick={() => {uploadImage()}}
-        />
       </div>
       <div className="nav-section">
-        <BadgeIconButton
+        {/* <BadgeIconButton
           icon={<Person />}
           badgeNumber={2}
           badgeIconButtonWrapper="badge-icon-button-wrapper"
@@ -76,7 +55,7 @@ const Header = () => {
           icon={<Notifications />}
           badgeNumber={2}
           badgeIconButtonWrapper="badge-icon-button-wrapper"
-        />
+        /> */}
         <div class="avatar avatar-sm margin-trb-16">
           <img
             src={dummy}
