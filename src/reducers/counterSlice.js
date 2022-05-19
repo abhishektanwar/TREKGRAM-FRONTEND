@@ -18,6 +18,7 @@ const initialState = {
   isEditingPost: false,
   updatingPost: {}, //post that is being updated
   filterType: null,
+  userPosts:[]
 };
 
 export const loadPosts = createAsyncThunk(
@@ -38,6 +39,28 @@ export const loadPosts = createAsyncThunk(
     } catch (err) {
       console.log("counter/loadPosts", err);
       return rejectWithValue("Failed to load post");
+    }
+  }
+);
+
+export const loadUserPosts = createAsyncThunk(
+  "posts/loadUserPosts",
+  async ({userId}, { rejectWithValue }) => {
+    try {
+      const result = await axios.request({
+        method: "get",
+        url: `https://trekgram-backend.herokuapp.com/api/post/${userId}/user`,
+        headers: {
+          authorization: `Bearer ${utils.getLocalStorage(
+            authTokenKeyLocalStorage
+          )}`,
+        },
+      });
+      console.log("result", result);
+      return result.data;
+    } catch (err) {
+      console.log("posts/loadUserPosts", err);
+      return rejectWithValue("Failed to load post of current logged in user");
     }
   }
 );
@@ -331,6 +354,18 @@ export const counterSlice = createSlice({
       state.postCreatedStatus = true;
       state.postCreatedError = true;
       state.postCreatedMessage = action.payload;
+    },
+    [loadUserPosts.pending]: (state) => {
+      state.status = "loading";
+    },
+    [loadUserPosts.fulfilled]: (state, action) => {
+      console.log("action posts", action);
+      state.status = "fulfilled";
+      state.userPosts = action.payload;
+    },
+    [loadUserPosts.rejected]: (state, action) => {
+      state.error = true;
+      state.errorMessage = action.payload;
     },
   },
 });

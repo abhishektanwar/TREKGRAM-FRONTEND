@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Feed,
@@ -6,10 +8,17 @@ import {
   RightSidebar,
 } from "../../components";
 import dummy from "../../components/Header/dummy_profile_img.png";
+import { loadPosts, loadUserPosts } from "../../reducers/counterSlice";
 
 import "./profile.css";
 import ProfileRightBar from "./ProfileRightBar";
 const Profile = () => {
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadUserPosts({ userId: user?._id }));
+  }, []);
+
   return (
     <div>
       <nav className="nav-bar shadow-box" id="my-nav-bar">
@@ -51,7 +60,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="profile-right-bottom">
-            <Feed />
+            <Feed posts={finalFilteredPosts} status={status} error={error} />
             <RightSidebar component={<ProfileRightBar />} />
           </div>
         </div>
