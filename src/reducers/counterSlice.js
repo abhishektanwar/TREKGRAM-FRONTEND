@@ -20,12 +20,6 @@ const initialState = {
   filterType: null,
 };
 
-// export const loadPosts = createAsyncThunk("counter/loadPosts", () => {
-//   return fetch("https://trekgram-backend.herokuapp.com/api/post/627eac55a1519e35c261aa30")
-//     .then((res) => res.json())
-//     .then((data) => data);
-// });
-
 export const loadPosts = createAsyncThunk(
   "counter/loadPosts",
   async (_, { rejectWithValue }) => {
