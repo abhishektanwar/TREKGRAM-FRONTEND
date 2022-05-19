@@ -93,7 +93,12 @@ const SignIn = () => {
           <Button
             buttonText="Login with test credenials"
             buttonStyle="secondary-button body-typo-md margin-top-0"
-            onClick={() => {}}
+            onClick={() =>
+              setLoginCredentials({
+                email: "testuser@tg.com",
+                password: "test1234",
+              })
+            }
           />
         </div>
       </div>
