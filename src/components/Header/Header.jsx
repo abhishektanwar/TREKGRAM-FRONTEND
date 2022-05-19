@@ -7,11 +7,28 @@ import BadgeIconButton from "../Buttons/BadgeIconButton";
 import { Person, Chat, Notifications } from "@material-ui/icons";
 import dummy from "./dummy_profile_img.png";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../reducers/userSlice";
+import { logout, register } from "../../reducers/userSlice";
+import { useState } from "react";
+import {ref,uploadBytes,getDownloadURL} from 'firebase/storage'
+import { storage } from "../../firebase";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {user,authToken} = useSelector((state)=>state.user)
+  const [imgUpload,setImageUpload] = useState(null);
+  const uploadImage = async () => {
+    if(imgUpload === null) return;
+    const imageRef = ref(storage,`images/${imgUpload.name + new Date()}`)
+    // uploadBytes(imageRef,imgUpload).then((data)=>{
+    //   alert("Image uploaded")
+    //   console.log("data img upload",data)
+    //   getDownloadURL(ref).then((data)=>console.log("url_data"),data)
+    // })
+    const uploadByteRes = await uploadBytes(imageRef,imgUpload)
+    console.log("upload bytes",uploadByteRes)
+    const downloadUrl = await getDownloadURL(imageRef);
+    console.log("download url",downloadUrl);
+  }
   return (
     <>
       <Link to="/">
@@ -36,6 +53,12 @@ const Header = () => {
           buttonText={authToken ? "Logout" : "Login"}
           buttonStyle={"headerButton typo-sm "}
           onClick={() => {authToken ? dispatch(logout()) : navigate('/login')}}
+        />
+        <input type="file" onChange={(e)=>setImageUpload(e.target.files[0])} />
+        <Button
+          buttonText={"upload img"}
+          buttonStyle={"headerButton typo-sm "}
+          onClick={() => {uploadImage()}}
         />
       </div>
       <div className="nav-section">
