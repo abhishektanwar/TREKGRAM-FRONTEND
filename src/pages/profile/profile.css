@@ -98,3 +98,8 @@
   text-align: center;
 
 }
+
+.portfolio-link{
+  text-decoration: none;
+  color: var(--primary-color);
+}

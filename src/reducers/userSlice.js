@@ -226,6 +226,7 @@ export const userSlice = createSlice({
       // state.user = {...state.user,following:[...state.user.following.filter((foll)=>foll._id !== action.payload.targetUserId)]}
       // state.visitingUser = {...state.visitingUser,followers:[...state.visitingUser.followers.filter((foll)=>foll._id !== action.payload.userId)]}
       state.user = {...state.user,...action.payload}
+      window.alert("Profile updated");
     },
     [updateUser.rejected]:(state,action)=>{
       state.status = "idle";

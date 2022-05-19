@@ -83,6 +83,8 @@ const Profile = () => {
                 <EditProfile />
               </ModalWrapper>
               <span className="user-bio body-typo-sm">{userProfile?.bio}</span>
+              
+              <a href={userProfile?.portfolioLink} className="portfolio-link body-typo-sm "  >{userProfile?.portfolioLink}</a>
             </div>
           </div>
           <div className="profile-right-bottom">
