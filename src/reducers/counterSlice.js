@@ -14,6 +14,8 @@ const initialState = {
   postCreatedStatus: "idle",
   postCreatedError: null,
   postCreatedMessage: "",
+  isEditingPost: false,
+  updatingPost: {}, //post that is being updated
 };
 
 // export const loadPosts = createAsyncThunk("counter/loadPosts", () => {
@@ -87,6 +89,29 @@ export const createNewPost = createAsyncThunk(
   }
 );
 
+export const updatePost = createAsyncThunk(
+  "counter/updatePost",
+  async ({ postId, data }, { rejectWithValue }) => {
+    try {
+      const result = await axios.request({
+        method: "put",
+        url: `http://localhost:8800/api/post/${postId}`,
+        headers: {
+          authorization: `Bearer ${utils.getLocalStorage(
+            authTokenKeyLocalStorage
+          )}`,
+        },
+        data,
+      });
+      console.log("updatepost result", result);
+      return { postId: postId, data: data };
+    } catch (err) {
+      console.log("counter/updatePost", err);
+      return rejectWithValue("Failed to update post");
+    }
+  }
+);
+
 export const likePost = createAsyncThunk(
   "counter/likePost",
   async ({ id, userId }, { rejectWithValue }) => {
@@ -148,7 +173,7 @@ export const bookmarkPost = createAsyncThunk(
             authTokenKeyLocalStorage
           )}`,
         },
-        // data: {userId:userId}
+        // data: {userId:userId}result.data
       });
       console.log("likePost result", result);
       return postId;
@@ -161,7 +186,10 @@ export const bookmarkPost = createAsyncThunk(
 
 export const addComment = createAsyncThunk(
   "counter/addComment",
-  async ({ postId, comment, profilePicture, userId, username }, { rejectWithValue }) => {
+  async (
+    { postId, comment, profilePicture, userId, username },
+    { rejectWithValue }
+  ) => {
     try {
       console.log("data like Post", { postId });
       const result = await axios.request({
@@ -192,6 +220,15 @@ export const counterSlice = createSlice({
     },
     decrement: (state) => {
       state.counter = state.counter - 1;
+    },
+    startPostEdit: (state, action) => {
+      console.log("Action startPostEdit", action.payload);
+      state.isEditingPost = true;
+      state.updatingPost = action.payload;
+    },
+    finishPostEdit: (state) => {
+      state.isEditingPost = false;
+      state.updatingPost = {};
     },
   },
   extraReducers: {
@@ -264,7 +301,7 @@ export const counterSlice = createSlice({
                   userId: action.payload.userId,
                   comment: action.payload.comment,
                   profilePicture: action.payload.profilePicture,
-                  username:action.payload.username
+                  username: action.payload.username,
                 },
               ],
             }
@@ -276,9 +313,30 @@ export const counterSlice = createSlice({
       // state.postCreatedStatus = true;
       // state.postCreatedMessage=action.payload
     },
+    [updatePost.pending]: (state) => {
+      state.postCreatedStatus = "loading";
+    },
+    [updatePost.fulfilled]: (state, action) => {
+      console.log("action posts update post", action);
+      state.postCreatedStatus = "fulfilled";
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload.postId
+          ? { ...post, desc: action.payload.data.desc }
+          : post
+      );
+      state.isEditingPost = false;
+      state.updatingPost = {}
+      // state.posts = action.payload;
+    },
+    [updatePost.rejected]: (state, action) => {
+      state.postCreatedStatus = true;
+      state.postCreatedError = true;
+      state.postCreatedMessage = action.payload;
+    },
   },
 });
 
-export const { increment, decrement } = counterSlice.actions;
+export const { increment, decrement, startPostEdit, finishPostEdit } =
+  counterSlice.actions;
 
 export default counterSlice.reducer;

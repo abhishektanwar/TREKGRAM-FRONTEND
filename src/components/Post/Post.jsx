@@ -7,6 +7,7 @@ import {
   Delete,
   BookmarkBorder,
   Bookmark,
+  Edit,
 } from "@material-ui/icons";
 import {} from "react-router-dom";
 import Button from "../Buttons/Button";
@@ -16,10 +17,11 @@ import {
   bookmarkPost,
   deletePost,
   likePost,
+  startPostEdit,
 } from "../../reducers/counterSlice";
 import { useState } from "react";
 import { InputField } from "..";
-import {format} from 'timeago.js'
+import { format } from "timeago.js";
 const Post = ({ post }) => {
   const { user: currentUser } = useSelector((state) => state.user);
   const { username, userId, desc, comments, likes, profilePicture, createdAt } =
@@ -44,6 +46,11 @@ const Post = ({ post }) => {
     setIsBookmarked((prev) => !prev);
     // setPostLikes((prev) => (isLiked ? prev - 1 : prev + 1));
   };
+
+  const handlePostEdit = (post) => {
+    dispatch(startPostEdit(post))
+  }
+
   return (
     <div className="post-container">
       <div className="post-wrapper shadow-box">
@@ -67,15 +74,22 @@ const Post = ({ post }) => {
           </div>
           <div className="post-top-right">
             {post.userId === currentUser._id ? (
-              <Button
-                icon={<Delete fontSize="large" />}
-                buttonStyle="secondary-button margin0 padding0"
-                onClick={() =>
-                  dispatch(
-                    deletePost({ postId: post._id, userId: currentUser._id })
-                  )
-                }
-              />
+              <>
+                <Button
+                  icon={<Edit fontSize="large" />}
+                  buttonStyle="secondary-button margin0 padding0"
+                  onClick={() => handlePostEdit(post)}
+                />
+                <Button
+                  icon={<Delete fontSize="large" />}
+                  buttonStyle="secondary-button margin0 padding0"
+                  onClick={() =>
+                    dispatch(
+                      deletePost({ postId: post._id, userId: currentUser._id })
+                    )
+                  }
+                />
+              </>
             ) : null}
             <Button
               icon={
@@ -150,32 +164,38 @@ const Post = ({ post }) => {
                       postId: post._id,
                       comment: comment,
                       profilePicture: currentUser.profilePicture,
-                      userId:currentUser._id,
-                      username:currentUser.username
+                      userId: currentUser._id,
+                      username: currentUser.username,
                     })
                   );
-                  setComment("")
+                  setComment("");
                 }}
                 buttonStyle="comment-btn btn-outline-primary body-typo-md"
               />
             </div>
             {comments.length > 0
-              ? comments.map((comment) => {
+              ? comments.map((comment,index) => {
                   return (
-                    <div className="comment">
+                    <div className="comment" key={index}>
                       <div class="avatar avatar-xs">
                         <img
-                          src={comment.profilePicture ? comment.profilePicture : dummy}
+                          src={
+                            comment.profilePicture
+                              ? comment.profilePicture
+                              : dummy
+                          }
                           alt="avatar"
                           loading="lazy"
                           className="responsive-img circular-img"
                         />
                       </div>
                       <div className="flex-column comment-text">
-                        <span className="body-typo-sm text-medium-weight">{comment.username}</span>
-                      <span className="body-typo-sm text-regular-weight">
-                        {comment.comment}
-                      </span>
+                        <span className="body-typo-sm text-medium-weight">
+                          {comment.username}
+                        </span>
+                        <span className="body-typo-sm text-regular-weight">
+                          {comment.comment}
+                        </span>
                       </div>
                     </div>
                   );

@@ -6,16 +6,16 @@ import Button from "../Buttons/Button";
 import Post from "../Post/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { createNewPost, uploadPostImage } from "../../reducers/counterSlice";
+import { createNewPost, updatePost, uploadPostImage } from "../../reducers/counterSlice";
 import { Loader } from "../Loader/Loader";
 const Share = () => {
   const { user } = useSelector((state) => state.user);
-  const { postCreatedStatus } = useSelector((state) => state.counter);
+  const { postCreatedStatus,isEditingPost,updatingPost } = useSelector((state) => state.counter);
 
   const [description, setDescription] = useState("");
   const dispatch = useDispatch();
 
-  const handleSharePost = async (e) => {
+  const handleSharePost = (e) => {
     e.preventDefault();
     let newPost = {
       userId: user?._id,
@@ -25,12 +25,23 @@ const Share = () => {
     dispatch(createNewPost(newPost));
   };
 
+  const handleUpdatePost = ()=> {
+    console.log("updating post",updatingPost);
+    dispatch(updatePost({postId:updatingPost._id,data:{desc:description}}))
+  }
   useEffect(() => {
     if (postCreatedStatus === "fulfilled") {
       // setFile(null)
       setDescription("");
     }
   }, [postCreatedStatus]);
+
+  useEffect(()=>{
+    if(isEditingPost){
+      setDescription(updatingPost.desc)
+    }
+    // setDescription()
+  },[isEditingPost])
   return (
     <div className="share-container">
       {postCreatedStatus === "loading" && <Loader />}
@@ -89,8 +100,8 @@ const Share = () => {
           </div>
         </form> */}
         <Button
-          buttonText="Post"
-          onClick={(e) => handleSharePost(e)}
+          buttonText={isEditingPost ? "Update Post" :"Post"}
+          onClick={(e) => isEditingPost ? handleUpdatePost(e) : handleSharePost(e)}
           buttonStyle="post-btn"
         />
       </div>

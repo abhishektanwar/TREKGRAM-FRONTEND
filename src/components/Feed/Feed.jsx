@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Loader } from "../Loader/Loader";
 import Post from "../Post/Post";
+import PostFiler from "../PostFilter/PostFiler";
 import Share from "../Share/Share";
 import "./feed.css";
 
@@ -10,6 +11,7 @@ const Feed = ({ posts, status, error }) => {
     <div className="flex-row feed-container">
       <div className="feed-wrapper">
         <Share />
+        <PostFiler />
         {status === "loading" ? (
           <Loader />
           // <h2>loading</h2>
