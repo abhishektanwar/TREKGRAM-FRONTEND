@@ -3,6 +3,10 @@
   background-color:var(--bg-color);
 }
 
+.post-top-left{
+  cursor: pointer;
+}
+
 .post-wrapper{
   padding: 1rem;
 }

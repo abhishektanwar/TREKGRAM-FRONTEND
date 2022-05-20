@@ -3,8 +3,11 @@ import { Feed, Header, LeftSidebar, RightSidebar } from '../../components'
 import { latestPostsFilter } from '../../helpers/filters/latestPostsFilter';
 import { trendingPostsFilter } from '../../helpers/filters/trendingPostsFilter';
 import HomeRightbar from '../home/HomeRightbar'
+import { useDocumentTitle } from "../../helpers/helpers";
+
 import './bookmarks.css'
 const Bookmarks = () => {
+  useDocumentTitle("TrekGram | Bookmarks");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { posts,filterType,error,status } = useSelector(

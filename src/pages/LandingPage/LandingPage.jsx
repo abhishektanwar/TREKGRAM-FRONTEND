@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router";
 import { Button } from "../../components";
 import utils from "../../utils";
+import { useDocumentTitle } from "../../helpers/helpers";
 import "./landing-page.css";
 const LandingPage = () => {
+  useDocumentTitle("TrekGram");
   const navigate = useNavigate();
   return (
     <div className="landing-page-container">

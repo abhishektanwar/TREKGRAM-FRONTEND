@@ -5,8 +5,10 @@ import { latestPostsFilter } from '../../helpers/filters/latestPostsFilter';
 import { trendingPostsFilter } from '../../helpers/filters/trendingPostsFilter';
 import { getExplorePosts } from '../../reducers/postSlice';
 import HomeRightbar from '../home/HomeRightbar'
+import { useDocumentTitle } from "../../helpers/helpers";
 import './explore.css'
 const Explore = () => {
+  useDocumentTitle("TrekGram | Explore");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { explorePosts, status, error, filterType } = useSelector(

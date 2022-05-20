@@ -4,9 +4,11 @@ import { Feed, Header, LeftSidebar, RightSidebar } from "../../components";
 import { latestPostsFilter } from "../../helpers/filters/latestPostsFilter";
 import { trendingPostsFilter } from "../../helpers/filters/trendingPostsFilter";
 import { loadPosts } from "../../reducers/postSlice";
+import { useDocumentTitle } from "../../helpers/helpers";
 import "./home.css";
 import HomeRightbar from "./HomeRightbar";
 const Home = () => {
+  useDocumentTitle("TrekGram | Feeds");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { posts, status, error, filterType } = useSelector(
