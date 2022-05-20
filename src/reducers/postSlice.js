@@ -318,7 +318,7 @@ export const postSlice = createSlice({
     },
     [deletePost.fulfilled]: (state, action) => {
       console.log("delete post", action);
-      // state.postCreatedStatus = "fulfilled"
+      state.postCreatedStatus = "fulfilled"
       state.posts = state.posts.filter((post) => post._id !== action.payload);
       // delete userPost if found
       state.userPosts = state.userPosts.filter((post) => post._id !== action.payload);

@@ -32,6 +32,7 @@ const Share = () => {
     let newPost = {
       userId: user?._id,
       desc: description,
+      profilePicture:user?.profilePicture
     };
 
     if (file !== null) {

@@ -24,7 +24,7 @@ import { format } from "timeago.js";
 import { bookmarkPost } from "../../reducers/userSlice";
 const Post = ({ post }) => {
   const { user: currentUser } = useSelector((state) => state.user);
-  const { username, userId, desc, comments, likes, profilePicture, createdAt } =
+  const { username, userId, desc, comments, likes, profilePicture, createdAt,img } =
     post;
   const dispatch = useDispatch();
   const [postLikes, setPostLikes] = useState(likes.length);
@@ -65,7 +65,7 @@ const Post = ({ post }) => {
           >
             <div class="avatar avatar-sm">
               <img
-                src={profilePicture ? profilePicture : dummy}
+                src={img ? img : profilePicture ? profilePicture : dummy}
                 alt="avatar"
                 loading="lazy"
                 className="responsive-img circular-img"
