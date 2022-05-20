@@ -30,7 +30,7 @@ const Header = () => {
         <DetailedLogo />
         <span className="show-mobile-logo">{/* <MobileLogo /> */}</span>
       </Link>
-      <SearchBar />
+      {/* <SearchBar /> */}
       <div className="nav-section">
       </div>
       <div className="nav-section">
@@ -40,8 +40,8 @@ const Header = () => {
           onClick={() => {authToken ? dispatch(logout()) : navigate('/login')}}
         />
       </div>
-      <div className="nav-section">
-        {/* <BadgeIconButton
+      {/* <div className="nav-section">
+        <BadgeIconButton
           icon={<Person />}
           badgeNumber={2}
           badgeIconButtonWrapper="badge-icon-button-wrapper"
@@ -55,16 +55,16 @@ const Header = () => {
           icon={<Notifications />}
           badgeNumber={2}
           badgeIconButtonWrapper="badge-icon-button-wrapper"
-        /> */}
-        {/* <div class="avatar avatar-sm margin-trb-16">
+        />
+        <div class="avatar avatar-sm margin-trb-16">
           <img
             src={dummy}
             alt="avatar"
             loading="lazy"
             className="responsive-img circular-img"
           />
-        </div> */}
-      </div>
+        </div>
+      </div> */}
     </>
   );
 };
