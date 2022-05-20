@@ -26,7 +26,7 @@ const Header = () => {
   }
   return (
     <>
-      <Link to="/">
+      <Link to="/home">
         <DetailedLogo />
         <span className="show-mobile-logo">{/* <MobileLogo /> */}</span>
       </Link>
@@ -56,14 +56,14 @@ const Header = () => {
           badgeNumber={2}
           badgeIconButtonWrapper="badge-icon-button-wrapper"
         /> */}
-        <div class="avatar avatar-sm margin-trb-16">
+        {/* <div class="avatar avatar-sm margin-trb-16">
           <img
             src={dummy}
             alt="avatar"
             loading="lazy"
             className="responsive-img circular-img"
           />
-        </div>
+        </div> */}
       </div>
     </>
   );

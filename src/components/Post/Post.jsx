@@ -30,7 +30,7 @@ const Post = ({ post }) => {
   const [postLikes, setPostLikes] = useState(likes.length);
   const [isLiked, setIsLiked] = useState(likes.includes(currentUser?._id));
   const [isBookmarked, setIsBookmarked] = useState(
-    currentUser?.bookmarks.includes(post._id)
+    currentUser?.bookmarks.find((bookmark)=>bookmark._id ===post._id)
   );
   const [comment, setComment] = useState("");
   const [showCommentBox, setShowCommentBox] = useState(false);
@@ -43,7 +43,7 @@ const Post = ({ post }) => {
 
   const handleBookmarkPost = () => {
     // dispatch(bookmarkPost({ postId: post._id }));
-    dispatch(bookmarkPost({ postId: post._id }));
+    dispatch(bookmarkPost({ postId: post._id,data:post }));
 
     setIsBookmarked((prev) => !prev);
     // setPostLikes((prev) => (isLiked ? prev - 1 : prev + 1));

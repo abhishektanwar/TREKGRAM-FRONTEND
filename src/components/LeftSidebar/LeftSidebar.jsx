@@ -28,7 +28,7 @@ const LeftSidebar = ({ user }) => {
     <div className="left-sidebar-container">
       <div className="left-sidebar-wrapper">
         <ul className="sidebar-list padding0">
-          <li className={`sidebar-list-item ${pathname==="/" ? 'active-link':null}`}>
+          <li className={`sidebar-list-item ${pathname==="/home" ? 'active-link':null}`} onClick={() => navigate(`/home`)}>
             <NavButton
               buttonText="Feed"
               icon={
@@ -38,28 +38,28 @@ const LeftSidebar = ({ user }) => {
                 />
               }
               
-              onNavBtnClick={() => navigate(`/`)}
+              
             />
           </li>
-          <li className={`sidebar-list-item ${pathname==="/explore" ? 'active-link':null}`}>
+          <li className={`sidebar-list-item ${pathname==="/explore" ? 'active-link':null}`} onClick={() => navigate(`/explore`)}>
             <NavButton
               buttonText="Explore"
               icon={<RssFeed fontSize="large" />}
-              onNavBtnClick={() => navigate(`/explore`)}
+              
             />
           </li>
-          <li className={`sidebar-list-item ${pathname==="/bookmarks" ? 'active-link':null}`}>
+          <li className={`sidebar-list-item ${pathname==="/bookmarks" ? 'active-link':null}`} onClick={() => navigate(`/bookmarks`)}>
             <NavButton
               buttonText="Bookmarks"
               icon={<BookmarkBorder fontSize="large" />}
-              onNavBtnClick={() => navigate(`/bookmarks`)}
+              
             />
           </li>
-          <li className={`sidebar-list-item ${pathname==="/profile/:id" ? 'active-link':null}`}>
+          <li className={`sidebar-list-item ${pathname==="/profile/:id" ? 'active-link':null}`} onClick={() => navigate(`/profile/${user._id}`)}>
             <NavButton
               buttonText="Profile"
               icon={<AccountCircleOutlined fontSize="large" />}
-              onNavBtnClick={() => navigate(`/profile/${user._id}`)}
+              
             />
           </li>
         </ul>

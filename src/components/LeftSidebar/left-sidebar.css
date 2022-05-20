@@ -18,9 +18,14 @@
   list-style-type: none;
 }
 
+.sidebar-list-item{
+  cursor: pointer;
+}
+
 .sidebar-list-item:hover{
   background-color: var(--border-color);
   transform: scale(1.2);
+  max-width: 100%;
   /* border-radius:/ 1rem; */
 }
 

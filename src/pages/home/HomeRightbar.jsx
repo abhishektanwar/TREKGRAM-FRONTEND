@@ -15,9 +15,9 @@ const HomeRightbar = () => {
     (ar) => !user?.following?.find((rm) => rm._id === ar._id)
   );
   const navigate = useNavigate();
-  useEffect(() => {
-    dispatch(getAllUsers());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllUsers());
+  // }, []);
   return (
     <div className="right-bar-container">
       <h5>Who to follow</h5>

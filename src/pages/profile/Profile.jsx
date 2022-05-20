@@ -35,9 +35,6 @@ const Profile = () => {
 
   return (
     <div>
-      <nav className="nav-bar shadow-box" id="my-nav-bar">
-        <Header />
-      </nav>
       <div className="flex-row profile-container app-container">
         <LeftSidebar />
         <div className="profile-right">

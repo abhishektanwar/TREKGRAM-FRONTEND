@@ -7,26 +7,23 @@ import './bookmarks.css'
 const Bookmarks = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const { filterType,error,status } = useSelector(
+  const { posts,filterType,error,status } = useSelector(
     (state) => state.counter
   );
   let finalFilteredPosts;
   if (filterType === "Latest") {
-    finalFilteredPosts = latestPostsFilter(user.bookmarks);
+    finalFilteredPosts = latestPostsFilter(user?.bookmarks);
   } else if (filterType === "Trending") {
-    finalFilteredPosts = trendingPostsFilter(user.bookmarks);
+    finalFilteredPosts = trendingPostsFilter(user?.bookmarks);
   } else if (filterType === null) {
-    finalFilteredPosts = user.bookmarks;
+    finalFilteredPosts = user?.bookmarks;
   }
   return (
     <div>
-      <nav className="nav-bar shadow-box" id="my-nav-bar">
-        <Header />
-      </nav>
       <div className="flex-row home-container app-container">
         <LeftSidebar user={user} />
         <Feed posts={finalFilteredPosts} status={status} error={error} />
-        <RightSidebar component={<HomeRightbar />} />
+        {/* <RightSidebar component={<HomeRightbar />} /> */}
       </div>
     </div>
   )

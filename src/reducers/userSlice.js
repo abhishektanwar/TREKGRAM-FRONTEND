@@ -164,21 +164,21 @@ export const updateUser = createAsyncThunk("user/updateUser",async ({userId,data
 
 export const bookmarkPost = createAsyncThunk(
   "counter/bookmarkPost",
-  async ({ postId }, { rejectWithValue }) => {
+  async ({ postId,data }, { rejectWithValue }) => {
     try {
       console.log("data like Post", { postId });
       const result = await axios.request({
         method: "put",
-        url: `https://trekgram-backend.herokuapp.com/api/post/${postId}/bookmark`,
+        url: `${BASE_API_URL}/api/post/${postId}/bookmark`,
         headers: {
           authorization: `Bearer ${utils.getLocalStorage(
             authTokenKeyLocalStorage
           )}`,
         },
-        // data: {userId:userId}result.data
+        data:data
       });
       console.log("likePost result", result.data);
-      return {postId,data:result.data};
+      return {postId,data,response:result.data};
     } catch (err) {
       console.log("counter/likePost", err);
       return rejectWithValue("Failed to like/unlike post");
@@ -294,11 +294,11 @@ export const userSlice = createSlice({
     },
     [bookmarkPost.fulfilled]:(state,action)=>{
       state.fetchingAllUsersStatus = "fulfilled"
-      if(action.payload.data === "Post bookmarkedd"){
-        state.user = {...state.user,bookmarks:[...state.user.bookmarks,action.payload.postId]}
+      if(action.payload.response === "Post bookmarkedd"){
+        state.user = {...state.user,bookmarks:[...state.user.bookmarks,action.payload.data]}
       }
       else if(action.payload.data === "Post un bookmarked"){
-        state.user = {...state.user,bookmarks:state.user.bookmarks.filter((post)=>post._id !== action.payload.postId)}
+        state.user = {...state.user,bookmarks:state.user.bookmarks.filter((post)=>post._id !== action.payload.data._id)}
       }
       // state.user = {...state.user,bookmarks}
     },

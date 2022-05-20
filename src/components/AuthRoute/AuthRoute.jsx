@@ -8,7 +8,7 @@ const AuthRoute = () => {
   const { user, authToken } = useSelector((state) => state.user);
   const location = useLocation();
   return utils.getLocalStorage("TREKGRAM_AUTH_TOKEN") ? (
-    <Navigate to="/" state={{ from: location }} replace />
+    <Navigate to="/home" state={{ from: location }} replace />
   ) : (
     <Outlet />
   );

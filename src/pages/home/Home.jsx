@@ -23,16 +23,14 @@ const Home = () => {
   // const {} = useElec
   useEffect(() => {
     dispatch(loadPosts({ userId: user?._id }));
-  }, []);
+  }, [user?._id]);
   return (
     <div>
-      <nav className="nav-bar shadow-box" id="my-nav-bar">
-        <Header />
-      </nav>
+      
       <div className="flex-row home-container app-container">
         <LeftSidebar user={user} />
         <Feed posts={finalFilteredPosts} status={status} error={error} />
-        <RightSidebar component={<HomeRightbar />} />
+        {/* <RightSidebar component={<HomeRightbar />} /> */}
       </div>
     </div>
   );
