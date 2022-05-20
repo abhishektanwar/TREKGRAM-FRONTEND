@@ -24,8 +24,16 @@ import { format } from "timeago.js";
 import { bookmarkPost } from "../../reducers/userSlice";
 const Post = ({ post }) => {
   const { user: currentUser } = useSelector((state) => state.user);
-  const { username, userId, desc, comments, likes, profilePicture, createdAt,img } =
-    post;
+  const {
+    username,
+    userId,
+    desc,
+    comments,
+    likes,
+    profilePicture,
+    createdAt,
+    img,
+  } = post;
   const dispatch = useDispatch();
   const [postLikes, setPostLikes] = useState(likes.length);
   const [isLiked, setIsLiked] = useState(likes.includes(currentUser?._id));
@@ -35,7 +43,6 @@ const Post = ({ post }) => {
   const [comment, setComment] = useState("");
   const [showCommentBox, setShowCommentBox] = useState(false);
   const navigate = useNavigate();
-  // const isLiked = likes.includes(currentUser._id)
   const handlePostLike = () => {
     dispatch(likePost({ id: post._id, userId: currentUser?._id }));
     setIsLiked((prev) => !prev);
@@ -43,11 +50,9 @@ const Post = ({ post }) => {
   };
 
   const handleBookmarkPost = () => {
-    // dispatch(bookmarkPost({ postId: post._id }));
     dispatch(bookmarkPost({ postId: post._id, data: post }));
 
     setIsBookmarked((prev) => !prev);
-    // setPostLikes((prev) => (isLiked ? prev - 1 : prev + 1));
   };
 
   const handlePostEdit = (post) => {

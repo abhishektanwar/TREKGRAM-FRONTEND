@@ -55,7 +55,7 @@ const HomeRightbar = () => {
                     </div>
                     <span className="typo-xs">{suggestion.username}</span>
                   </div>
-                  {/* <Button
+                  <Button
                     buttonText="Follow"
                     buttonStyle="margin0 padding0 follow-btn"
                     onClick={() => {
@@ -66,7 +66,7 @@ const HomeRightbar = () => {
                         })
                       );
                     }}
-                  /> */}
+                  />
                 </div>
               );
             }
@@ -78,19 +78,3 @@ const HomeRightbar = () => {
 };
 
 export default HomeRightbar;
-
-{
-  /* <img
-                src={
-                  profileData.profilePicture
-                    ? profileData.profilePicture
-                    : file.profilePicture
-                    ? URL.createObjectURL(file.profilePicture)
-                    : dummy
-                  // dummy
-                }
-                alt="avatar"
-                loading="lazy"
-                className="responsive-img circular-img "
-              /> */
-}

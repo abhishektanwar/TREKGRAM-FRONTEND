@@ -32,7 +32,7 @@ const Share = () => {
     let newPost = {
       userId: user?._id,
       desc: description,
-      profilePicture:user?.profilePicture
+      profilePicture: user?.profilePicture,
     };
 
     if (file !== null) {
@@ -78,12 +78,16 @@ const Share = () => {
   useEffect(() => {
     if (isEditingPost) {
       setDescription(updatingPost.desc);
-      setFile(updatingPost.img)
+      setFile(updatingPost.img);
     }
   }, [isEditingPost]);
   return (
     <div className="share-container">
-      {postCreatedStatus === "loading" && <Loader />}
+      {postCreatedStatus === "loading" && (
+        <div className="loader-container">
+          <Loader />
+        </div>
+      )}
       <div className="share-wrapper shadow-box">
         <div className="share-top-section flex-row flex-align-item-center">
           <div class="avatar avatar-sm">
@@ -112,7 +116,9 @@ const Share = () => {
             <img
               src="share-img"
               className="responsive-img"
-              src={ isEditingPost ? updatingPost?.img : URL.createObjectURL(file)}
+              src={
+                isEditingPost ? updatingPost?.img : URL.createObjectURL(file)
+              }
               alt=""
             />
             <Cancel
@@ -174,9 +180,9 @@ const Share = () => {
             <Button
               buttonText={"Cancel"}
               onClick={(e) => {
-                dispatch(finishPostEdit())
-                setDescription("")
-                setFile(null)
+                dispatch(finishPostEdit());
+                setDescription("");
+                setFile(null);
               }}
               buttonStyle="post-btn secondary-button"
             />

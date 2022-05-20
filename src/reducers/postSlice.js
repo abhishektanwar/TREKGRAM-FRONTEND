@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Toast } from "../helpers/toast";
 import utils from "../utils";
 const authTokenKeyLocalStorage = "TREKGRAM_AUTH_TOKEN";
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   explorePosts:null,
 };
 
+const {customToast} = Toast();
 export const loadPosts = createAsyncThunk(
   "counter/loadPosts",
   async (_, { rejectWithValue }) => {
@@ -34,10 +36,8 @@ export const loadPosts = createAsyncThunk(
           )}`,
         },
       });
-      console.log("result", result);
       return result.data;
     } catch (err) {
-      console.log("counter/loadPosts", err);
       return rejectWithValue("Failed to load post");
     }
   }
@@ -51,10 +51,8 @@ export const getExplorePosts = createAsyncThunk(
         method: "get",
         url: `https://trekgram-backend.herokuapp.com/api/post/posts/getAllPosts`,
       });
-      console.log("result", result);
       return result.data;
     } catch (err) {
-      console.log("counter/loadPosts", err);
       return rejectWithValue("Failed to load post");
     }
   }
@@ -73,10 +71,8 @@ export const loadUserPosts = createAsyncThunk(
           )}`,
         },
       });
-      console.log("result", result);
       return result.data;
     } catch (err) {
-      console.log("posts/loadUserPosts", err);
       return rejectWithValue("Failed to load post of current logged in user");
     }
   }
@@ -86,7 +82,6 @@ export const uploadPostImage = createAsyncThunk(
   "counter/uploadPostImage",
   async ({ data, fileName }, { rejectWithValue }) => {
     try {
-      console.log("data image upload", data);
       const result = await axios.request({
         method: "post",
         url: `https://trekgram-backend.herokuapp.com/api/upload`,
@@ -94,9 +89,7 @@ export const uploadPostImage = createAsyncThunk(
         headers: { uploadfilename: fileName },
         data,
       });
-      console.log("uploadPostImage", result);
     } catch (err) {
-      console.log("counter/loadPosts", err);
       return rejectWithValue("Failed to load post");
     }
   }
@@ -116,10 +109,8 @@ export const createNewPost = createAsyncThunk(
         },
         data,
       });
-      console.log("createNewPost result", result);
       return result.data;
     } catch (err) {
-      console.log("counter/loadPosts", err);
       return rejectWithValue("Failed to create post");
     }
   }
@@ -139,10 +130,8 @@ export const updatePost = createAsyncThunk(
         },
         data,
       });
-      console.log("updatepost result", result);
       return { postId: postId, data: data };
     } catch (err) {
-      console.log("counter/updatePost", err);
       return rejectWithValue("Failed to update post");
     }
   }
@@ -152,7 +141,6 @@ export const likePost = createAsyncThunk(
   "counter/likePost",
   async ({ id, userId }, { rejectWithValue }) => {
     try {
-      console.log("data like Post", { id, userId });
       const result = await axios.request({
         method: "put",
         url: `https://trekgram-backend.herokuapp.com/api/post/${id}/like`,
@@ -163,10 +151,8 @@ export const likePost = createAsyncThunk(
         },
         data: { userId: userId },
       });
-      console.log("likePost result", result);
       return result.data;
     } catch (err) {
-      console.log("counter/likePost", err);
       return rejectWithValue("Failed to like/unlike post");
     }
   }
@@ -176,7 +162,6 @@ export const deletePost = createAsyncThunk(
   "counter/deletePost",
   async ({ postId, userId }, { rejectWithValue }) => {
     try {
-      console.log("data like Post", { postId, userId });
       const result = await axios.request({
         method: "delete",
         url: `https://trekgram-backend.herokuapp.com/api/post/${postId}`,
@@ -187,10 +172,8 @@ export const deletePost = createAsyncThunk(
         },
         data: { userId: userId },
       });
-      console.log("likePost result", result);
       return postId;
     } catch (err) {
-      console.log("counter/likePost", err);
       return rejectWithValue("Failed to like/unlike post");
     }
   }
@@ -200,7 +183,6 @@ export const bookmarkPost = createAsyncThunk(
   "counter/bookmarkPost",
   async ({ postId }, { rejectWithValue }) => {
     try {
-      console.log("data like Post", { postId });
       const result = await axios.request({
         method: "put",
         url: `https://trekgram-backend.herokuapp.com/api/post/${postId}/bookmark`,
@@ -211,10 +193,8 @@ export const bookmarkPost = createAsyncThunk(
         },
         // data: {userId:userId}result.data
       });
-      console.log("likePost result", result.data);
       return postId;
     } catch (err) {
-      console.log("counter/likePost", err);
       return rejectWithValue("Failed to like/unlike post");
     }
   }
@@ -227,7 +207,6 @@ export const addComment = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      console.log("data like Post", { postId });
       const result = await axios.request({
         method: "put",
         url: `https://trekgram-backend.herokuapp.com/api/post/${postId}/comment`,
@@ -238,10 +217,8 @@ export const addComment = createAsyncThunk(
         },
         data: { comment: comment },
       });
-      console.log("likePost result", result);
       return { postId, comment, profilePicture, userId, username };
     } catch (err) {
-      console.log("counter/likePost", err);
       return rejectWithValue("Failed to like/unlike post");
     }
   }
@@ -258,7 +235,6 @@ export const postSlice = createSlice({
       state.counter = state.counter - 1;
     },
     startPostEdit: (state, action) => {
-      console.log("Action startPostEdit", action.payload);
       state.isEditingPost = true;
       state.updatingPost = action.payload;
     },
@@ -275,7 +251,6 @@ export const postSlice = createSlice({
       state.status = "loading";
     },
     [loadPosts.fulfilled]: (state, action) => {
-      console.log("action posts", action);
       state.status = "fulfilled";
       state.posts = action.payload;
     },
@@ -289,7 +264,6 @@ export const postSlice = createSlice({
       state.status = "loading";
     },
     [uploadPostImage.fulfilled]: (state, action) => {
-      console.log("action posts", action);
       state.status = "fulfilled";
     },
     [uploadPostImage.rejected]: (state, action) => {
@@ -301,11 +275,11 @@ export const postSlice = createSlice({
       state.postCreatedStatus = "loading";
     },
     [createNewPost.fulfilled]: (state, action) => {
-      console.log("action posts", action);
       state.postCreatedStatus = "fulfilled";
       state.posts = [action.payload.post, ...state.posts];
       // update user posts
       state.userPosts = [action.payload.post, ...state.userPosts];
+      customToast("Post created successfully","success");
       // state.posts = action.payload;
     },
     [createNewPost.rejected]: (state, action) => {
@@ -317,12 +291,12 @@ export const postSlice = createSlice({
       state.postCreatedStatus = "loading";
     },
     [deletePost.fulfilled]: (state, action) => {
-      console.log("delete post", action);
       state.postCreatedStatus = "fulfilled"
       state.posts = state.posts.filter((post) => post._id !== action.payload);
       // delete userPost if found
       state.userPosts = state.userPosts.filter((post) => post._id !== action.payload);
       // state.posts = action.payload;
+      customToast("Post deleted successfully","success");
     },
     [deletePost.rejected]: (state, action) => {
       // state.postCreatedStatus = true;
@@ -332,7 +306,6 @@ export const postSlice = createSlice({
       // state.postCreatedStatus = "loading";
     },
     [addComment.fulfilled]: (state, action) => {
-      console.log("comment post", action);
       // state.postCreatedStatus = "fulfilled"
       state.posts = state.posts.filter((post) => post._id !== action.payload);
       state.posts = state.posts.map((post) =>
@@ -385,6 +358,8 @@ export const postSlice = createSlice({
           : post
       );
       // state.posts = action.payload;
+      customToast("Comment added successfully","success");
+
     },
     [addComment.rejected]: (state, action) => {
       // state.postCreatedStatus = true;
@@ -394,7 +369,6 @@ export const postSlice = createSlice({
       state.postCreatedStatus = "loading";
     },
     [updatePost.fulfilled]: (state, action) => {
-      console.log("action posts update post", action);
       state.postCreatedStatus = "fulfilled";
       state.posts = state.posts.map((post) =>
         post._id === action.payload.postId
@@ -415,6 +389,8 @@ export const postSlice = createSlice({
       state.isEditingPost = false;
       state.updatingPost = {};
       // state.posts = action.payload;
+      customToast("Post updated successfully","success");
+
     },
     [updatePost.rejected]: (state, action) => {
       state.postCreatedStatus = true;
@@ -425,7 +401,6 @@ export const postSlice = createSlice({
       state.status = "loading";
     },
     [loadUserPosts.fulfilled]: (state, action) => {
-      console.log("action posts", action);
       state.status = "fulfilled";
       state.userPosts = action.payload;
     },
@@ -438,7 +413,6 @@ export const postSlice = createSlice({
       state.status = "loading";
     },
     [getExplorePosts.fulfilled]: (state, action) => {
-      console.log("action posts", action);
       state.status = "fulfilled";
       state.explorePosts = action.payload;
     },

@@ -11,7 +11,6 @@ const Feed = ({ posts, status, error }) => {
   const { user } = useSelector((state) => state.user);
   const { userId } = useParams();
   const { pathname } = useLocation();
-  console.log("location", pathname);
   return (
     <div className="flex-row feed-container">
       {posts ? (

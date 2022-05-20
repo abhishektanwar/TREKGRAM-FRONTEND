@@ -16,6 +16,9 @@ import Bookmarks from "./pages/bookmarks/Bookmarks";
 import Page404 from "./pages/Page404";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import { Header } from "./components";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const { user, authToken } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -28,6 +31,7 @@ function App() {
   }, [dispatch, user]);
   return (
     <div className="app">
+      <ToastContainer theme="colored" autoClose={1200} />
       <ModalProvider>
         <nav className="nav-bar shadow-box" id="my-nav-bar">
           <Header />

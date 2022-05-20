@@ -56,16 +56,6 @@ const LandingPage = () => {
           />
         </div>
       </div>
-      <div className="flex-row margin-top-60 flex-justify-content-space-between">
-        {/* {contentData.map((data) => {
-          return (
-            <div className="landing-page-features-container">
-              <h3 className="text-medium-weight">{data.heading}</h3>
-              <p className="typo-sm" >{data.content}</p>
-            </div>
-          );
-        })} */}
-      </div>
     </div>
   );
 };

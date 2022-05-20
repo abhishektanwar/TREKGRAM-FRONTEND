@@ -23,43 +23,52 @@ const NavButton = ({ buttonText, icon, onNavBtnClick, active }) => {
 const LeftSidebar = ({ user }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  console.log("pathname", pathname);
   return (
     <div className="left-sidebar-container">
       <div className="left-sidebar-wrapper">
         <ul className="sidebar-list padding0">
-          <li className={`sidebar-list-item ${pathname==="/home" ? 'active-link':null}`} onClick={() => navigate(`/home`)}>
+          <li
+            className={`sidebar-list-item ${
+              pathname === "/home" ? "active-link" : null
+            }`}
+            onClick={() => navigate(`/home`)}
+          >
             <NavButton
               buttonText="Feed"
-              icon={
-                <HomeOutlined
-                  fontSize="large"
-                  
-                />
-              }
-              
-              
+              icon={<HomeOutlined fontSize="large" />}
             />
           </li>
-          <li className={`sidebar-list-item ${pathname==="/explore" ? 'active-link':null}`} onClick={() => navigate(`/explore`)}>
+          <li
+            className={`sidebar-list-item ${
+              pathname === "/explore" ? "active-link" : null
+            }`}
+            onClick={() => navigate(`/explore`)}
+          >
             <NavButton
               buttonText="Explore"
               icon={<RssFeed fontSize="large" />}
-              
             />
           </li>
-          <li className={`sidebar-list-item ${pathname==="/bookmarks" ? 'active-link':null}`} onClick={() => navigate(`/bookmarks`)}>
+          <li
+            className={`sidebar-list-item ${
+              pathname === "/bookmarks" ? "active-link" : null
+            }`}
+            onClick={() => navigate(`/bookmarks`)}
+          >
             <NavButton
               buttonText="Bookmarks"
               icon={<BookmarkBorder fontSize="large" />}
-              
             />
           </li>
-          <li className={`sidebar-list-item ${pathname==="/profile/:id" ? 'active-link':null}`} onClick={() => navigate(`/profile/${user._id}`)}>
+          <li
+            className={`sidebar-list-item ${
+              pathname === "/profile/:id" ? "active-link" : null
+            }`}
+            onClick={() => navigate(`/profile/${user._id}`)}
+          >
             <NavButton
               buttonText="Profile"
               icon={<AccountCircleOutlined fontSize="large" />}
-              
             />
           </li>
         </ul>

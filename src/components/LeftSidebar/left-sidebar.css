@@ -1,6 +1,5 @@
 .left-sidebar-container{
   flex: 25%;
-  /* height: 90vh; */
   border-right: 1px solid var(--grey-background-color);
   background-color:var(--bg-color);
   margin-right: 2rem;
@@ -30,7 +29,6 @@
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  /* border-radius:/ 1rem; */
 }
 
 .left-sidebar-nav-btn{
