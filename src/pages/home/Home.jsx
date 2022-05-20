@@ -4,8 +4,11 @@ import { Feed, Header, LeftSidebar, RightSidebar } from "../../components";
 import { latestPostsFilter } from "../../helpers/filters/latestPostsFilter";
 import { trendingPostsFilter } from "../../helpers/filters/trendingPostsFilter";
 import { loadPosts } from "../../reducers/postSlice";
+import { useDocumentTitle } from "../../helpers/helpers";
 import "./home.css";
+import HomeRightbar from "./HomeRightbar";
 const Home = () => {
+  useDocumentTitle("TrekGram | Feeds");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { posts, status, error, filterType } = useSelector(
@@ -22,16 +25,14 @@ const Home = () => {
   // const {} = useElec
   useEffect(() => {
     dispatch(loadPosts({ userId: user?._id }));
-  }, []);
+  }, [user?._id]);
   return (
     <div>
-      <nav className="nav-bar shadow-box" id="my-nav-bar">
-        <Header />
-      </nav>
+      
       <div className="flex-row home-container app-container">
         <LeftSidebar user={user} />
         <Feed posts={finalFilteredPosts} status={status} error={error} />
-        <RightSidebar />
+        {/* <RightSidebar component={<HomeRightbar />} /> */}
       </div>
     </div>
   );

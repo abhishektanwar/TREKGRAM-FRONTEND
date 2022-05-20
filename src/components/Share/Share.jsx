@@ -32,6 +32,7 @@ const Share = () => {
     let newPost = {
       userId: user?._id,
       desc: description,
+      profilePicture: user?.profilePicture,
     };
 
     if (file !== null) {
@@ -45,11 +46,17 @@ const Share = () => {
     }
 
     dispatch(createNewPost(newPost));
+    setFile(null);
   };
 
   const handleUpdatePost = async () => {
     console.log("updating post", updatingPost);
     let downloadUrl = "";
+    let newPost = {
+      userId: user?._id,
+      desc: description,
+      profilePicture: user?.profilePicture,
+    };
     if (file !== null) {
       const imageRef = ref(
         storage,
@@ -57,15 +64,21 @@ const Share = () => {
       );
       const uploadByteRes = await uploadBytes(imageRef, file);
       downloadUrl = await getDownloadURL(imageRef);
-      // newPost.img = downloadUrl;
+      newPost.img = downloadUrl;
     }
     dispatch(
       updatePost({
         postId: updatingPost._id,
-        data: { desc: description, img: downloadUrl ?? updatingPost.img },
+        data: newPost,
+        profilePicture: user?.profilePicture,
       })
     );
+    setFile(null);
   };
+  const postUpdate = () =>{
+    window.scroll(0,0);
+    handleUpdatePost()
+  }
   useEffect(() => {
     if (postCreatedStatus === "fulfilled") {
       // setFile(null)
@@ -77,12 +90,16 @@ const Share = () => {
   useEffect(() => {
     if (isEditingPost) {
       setDescription(updatingPost.desc);
-      setFile(updatingPost.img)
+      setFile(updatingPost.img);
     }
   }, [isEditingPost]);
   return (
     <div className="share-container">
-      {postCreatedStatus === "loading" && <Loader />}
+      {postCreatedStatus === "loading" && (
+        <div className="loader-container">
+          <Loader />
+        </div>
+      )}
       <div className="share-wrapper shadow-box">
         <div className="share-top-section flex-row flex-align-item-center">
           <div class="avatar avatar-sm">
@@ -111,7 +128,9 @@ const Share = () => {
             <img
               src="share-img"
               className="responsive-img"
-              src={ isEditingPost ? updatingPost?.img : URL.createObjectURL(file)}
+              src={
+                isEditingPost ? updatingPost?.img : URL.createObjectURL(file)
+              }
               alt=""
             />
             <Cancel
@@ -164,18 +183,18 @@ const Share = () => {
         <div className="create-update-post-btn-container">
           <Button
             buttonText={isEditingPost ? "Update Post" : "Post"}
-            onClick={(e) =>
-              isEditingPost ? handleUpdatePost(e) : handleSharePost(e)
-            }
+            onClick={(e) => {
+              isEditingPost ? postUpdate(e) : handleSharePost(e);
+            }}
             buttonStyle="post-btn"
           />
           {isEditingPost && (
             <Button
               buttonText={"Cancel"}
               onClick={(e) => {
-                dispatch(finishPostEdit())
-                setDescription("")
-                setFile(null)
+                dispatch(finishPostEdit());
+                setDescription("");
+                setFile(null);
               }}
               buttonStyle="post-btn secondary-button"
             />

@@ -14,10 +14,12 @@ import ModalWrapper from "../../components/ModalWrapper";
 import { useModal } from "../../contexts/ModalContext";
 import { loadPosts, loadUserPosts } from "../../reducers/postSlice";
 import { getUser } from "../../reducers/userSlice";
+import { useDocumentTitle } from '../../helpers/helpers'
 
 import "./profile.css";
 import ProfileRightBar from "./ProfileRightBar";
 const Profile = () => {
+  useDocumentTitle("TrekGram | Profile")
   const { user, visitingUser } = useSelector((state) => state.user);
   const { userPosts, status, error, filterType } = useSelector(
     (state) => state.counter
@@ -35,9 +37,6 @@ const Profile = () => {
 
   return (
     <div>
-      <nav className="nav-bar shadow-box" id="my-nav-bar">
-        <Header />
-      </nav>
       <div className="flex-row profile-container app-container">
         <LeftSidebar />
         <div className="profile-right">

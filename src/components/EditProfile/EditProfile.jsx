@@ -74,12 +74,16 @@ const EditProfile = () => {
             <div className="avatar avatar-md profile-img-container">
               <img
                 src={
-                  profileData.profilePicture
-                    ? profileData.profilePicture
-                    : file.profilePicture
+                  file.profilePicture
                     ? URL.createObjectURL(file.profilePicture)
+                    : profileData.profilePicture
+                    ? profileData.profilePicture
                     : dummy
-                  // dummy
+                  // profileData.profilePicture
+                  //   ? profileData.profilePicture
+                  //   : file.profilePicture
+                  //   ? URL.createObjectURL(file.profilePicture)
+                  //   : dummy
                 }
                 alt="avatar"
                 loading="lazy"
@@ -114,13 +118,13 @@ const EditProfile = () => {
             htmlFor="coverPicture"
             className={`margin-trb-16 btn btn-filled-primary ${"share-action-btn body-typo-sm"}`}
           >
-            <div className="profile-img-container">
+            <div className="profile-img-container cover-image-container">
               <img
                 src={
-                  profileData.coverPicture
-                    ? profileData.coverPicture
-                    : file.coverPicture !== null
-                    ? URL.createObjectURL(file.coverPicture)
+                  file.profilePicture
+                    ? URL.createObjectURL(file.profilePicture)
+                    : profileData.profilePicture
+                    ? profileData.profilePicture
                     : dummy
                 }
                 alt="avatar"
@@ -207,13 +211,14 @@ const EditProfile = () => {
           validation={true}
         />
       </div>
-      <Button
-        buttonText={saving ? <Loader /> : "SAVE"}
+      {saving ? <Loader /> : <Button
+        buttonText={"SAVE"}
         buttonStyle="save-profile-btn"
         onClick={() => {
           handleProfileSave();
         }}
-      />
+      /> }
+      
     </div>
   ) : (
     <div className="loader-container">

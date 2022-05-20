@@ -1,6 +1,5 @@
 .left-sidebar-container{
   flex: 25%;
-  /* height: 90vh; */
   border-right: 1px solid var(--grey-background-color);
   background-color:var(--bg-color);
   margin-right: 2rem;
@@ -18,11 +17,18 @@
   list-style-type: none;
 }
 
+.sidebar-list-item{
+  cursor: pointer;
+}
+
 .sidebar-list-item:hover{
   background-color: var(--border-color);
   transform: scale(1.2);
-  width: 90%;
-  margin: 0 auto;
+  max-width: 80%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .left-sidebar-nav-btn{
@@ -32,4 +38,8 @@
   color: var(--black-color);
   cursor: pointer;
   margin: 0;
+}
+
+.active-link{
+  background-color: var(--border-color);
 }

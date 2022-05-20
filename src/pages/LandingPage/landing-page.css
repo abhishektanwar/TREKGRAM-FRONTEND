@@ -1,0 +1,25 @@
+.horizontal-card{
+  background-color: unset;
+}
+
+.landing-page-container{
+  padding-right: 4rem;
+  padding-left: 4rem;
+}
+
+.landing-page-features-container{
+  margin: 20px;
+  max-width: 40rem;
+}
+
+.landing-page-features-container > p{
+  color: black;
+}
+
+.feature{
+  margin: 2.4rem 0;
+}
+
+.join-now-button{
+  width: 100%;
+}
