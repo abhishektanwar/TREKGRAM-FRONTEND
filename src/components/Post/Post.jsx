@@ -28,15 +28,16 @@ const Post = ({ post }) => {
     post;
   const dispatch = useDispatch();
   const [postLikes, setPostLikes] = useState(likes.length);
-  const [isLiked, setIsLiked] = useState(likes.includes(currentUser._id));
+  const [isLiked, setIsLiked] = useState(likes.includes(currentUser?._id));
   const [isBookmarked, setIsBookmarked] = useState(
-    currentUser.bookmarks.includes(post._id)
+    // currentUser?.bookmarks.includes(post._id)
+    true
   );
   const [comment, setComment] = useState("");
   const [showCommentBox, setShowCommentBox] = useState(false);
   // const isLiked = likes.includes(currentUser._id)
   const handlePostLike = () => {
-    dispatch(likePost({ id: post._id, userId: currentUser._id }));
+    dispatch(likePost({ id: post._id, userId: currentUser?._id }));
     setIsLiked((prev) => !prev);
     setPostLikes((prev) => (isLiked ? prev - 1 : prev + 1));
   };
@@ -48,6 +49,7 @@ const Post = ({ post }) => {
   };
 
   const handlePostEdit = (post) => {
+    window.scroll(0,0)
     dispatch(startPostEdit(post))
   }
 
@@ -58,7 +60,7 @@ const Post = ({ post }) => {
           <div className="post-top-left flex-row flex-align-item-center">
             <div class="avatar avatar-sm">
               <img
-                src={dummy}
+                src={profilePicture ? profilePicture : dummy}
                 alt="avatar"
                 loading="lazy"
                 className="responsive-img circular-img"
@@ -68,12 +70,11 @@ const Post = ({ post }) => {
               {username ?? "<username>"}
             </span>
             <span className="body-typo-sm text-regular-weight post-time">
-              {/* {new Date(createdAt).toLocaleDateString()} */}
               {format(createdAt)}
             </span>
           </div>
           <div className="post-top-right">
-            {post.userId === currentUser._id ? (
+            {post.userId === currentUser?._id ? (
               <>
                 <Button
                   icon={<Edit fontSize="large" />}
@@ -85,7 +86,7 @@ const Post = ({ post }) => {
                   buttonStyle="secondary-button margin0 padding0"
                   onClick={() =>
                     dispatch(
-                      deletePost({ postId: post._id, userId: currentUser._id })
+                      deletePost({ postId: post._id, userId: currentUser?._id })
                     )
                   }
                 />
@@ -106,14 +107,14 @@ const Post = ({ post }) => {
         </div>
         <div className="post-middle-section">
           <p className="post-text-body body-typo-md">{desc}</p>
-          {/* {post.img ? (
+          {post.img ? (
             <img
-              src={ post.img ? `data:image/png;base64,${post.img}` : dummy}
+              src={ post.img }
               alt="post-image"
               loading="lazy"
               class="responsive-img"
             />
-            ) : null} */}
+            ) : null}
         </div>
 
         <div className="post-bottom-section flex-row">
@@ -163,9 +164,9 @@ const Post = ({ post }) => {
                     addComment({
                       postId: post._id,
                       comment: comment,
-                      profilePicture: currentUser.profilePicture,
-                      userId: currentUser._id,
-                      username: currentUser.username,
+                      profilePicture: currentUser?.profilePicture,
+                      userId: currentUser?._id,
+                      username: currentUser?.username,
                     })
                   );
                   setComment("");

@@ -19,7 +19,7 @@ const NavButton = ({ buttonText, icon, onNavBtnClick }) => {
   );
 };
 
-const LeftSidebar = () => {
+const LeftSidebar = ({user}) => {
   const navigate = useNavigate();
   return (
     <div className="left-sidebar-container">
@@ -51,7 +51,7 @@ const LeftSidebar = () => {
                   fontSize="large"
                 />
               }
-              onNavBtnClick={() => navigate("/profile")}
+              onNavBtnClick={() => navigate(`/profile/${user._id}`)}
             />
           </li>
         </ul>

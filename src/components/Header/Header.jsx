@@ -7,11 +7,23 @@ import BadgeIconButton from "../Buttons/BadgeIconButton";
 import { Person, Chat, Notifications } from "@material-ui/icons";
 import dummy from "./dummy_profile_img.png";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../reducers/userSlice";
+import { logout, register } from "../../reducers/userSlice";
+import { useState } from "react";
+import {ref,uploadBytes,getDownloadURL} from 'firebase/storage'
+import { storage } from "../../firebase";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {user,authToken} = useSelector((state)=>state.user)
+  const [imgUpload,setImageUpload] = useState(null);
+  const uploadImage = async () => {
+    if(imgUpload === null) return;
+    const imageRef = ref(storage,`images/${imgUpload.name + new Date()}`)
+    const uploadByteRes = await uploadBytes(imageRef,imgUpload)
+    console.log("upload bytes",uploadByteRes)
+    const downloadUrl = await getDownloadURL(imageRef);
+    console.log("download url",downloadUrl);
+  }
   return (
     <>
       <Link to="/">
@@ -20,16 +32,6 @@ const Header = () => {
       </Link>
       <SearchBar />
       <div className="nav-section">
-        <Button
-          buttonText={"Homepage"}
-          buttonStyle={"headerButton body-typo-md secondary-button margin0 padding0"}
-          onClick={() => {}}
-        />
-        <Button
-          buttonText={"Timeline"}
-          buttonStyle={"headerButton body-typo-md secondary-button margin0 padding0"}
-          onClick={() => {}}
-        />
       </div>
       <div className="nav-section">
         <Button
@@ -39,7 +41,7 @@ const Header = () => {
         />
       </div>
       <div className="nav-section">
-        <BadgeIconButton
+        {/* <BadgeIconButton
           icon={<Person />}
           badgeNumber={2}
           badgeIconButtonWrapper="badge-icon-button-wrapper"
@@ -53,7 +55,7 @@ const Header = () => {
           icon={<Notifications />}
           badgeNumber={2}
           badgeIconButtonWrapper="badge-icon-button-wrapper"
-        />
+        /> */}
         <div class="avatar avatar-sm margin-trb-16">
           <img
             src={dummy}

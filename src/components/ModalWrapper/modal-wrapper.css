@@ -1,0 +1,38 @@
+.modal-background{
+  width: 80%;
+  height: 80%;
+  background:rgba(44, 43, 43, 0.808);
+  position: fixed;
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+  z-index: 20;
+  top: 10rem;
+  left: 0;
+  right: 0;
+  margin:auto
+}
+
+.modal-wrapper{
+  width: 800px;
+  height: 500px;
+  box-shadow: 0 5px 16px rgba(63, 25, 25, 0.2);
+  background: #fff;
+  color: #000;
+  z-index: 10;
+  border-radius: 10px;
+}
+
+.modal-close-button{
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 10;
+  border: 1px solid;
+  background-color: var(--bg-color);
+}
+
+.modal-close-button > svg {
+  margin:0 ;
+}

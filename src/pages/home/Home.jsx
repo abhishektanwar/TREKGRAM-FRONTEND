@@ -29,7 +29,7 @@ const Home = () => {
         <Header />
       </nav>
       <div className="flex-row home-container app-container">
-        <LeftSidebar />
+        <LeftSidebar user={user} />
         <Feed posts={finalFilteredPosts} status={status} error={error} />
         <RightSidebar />
       </div>

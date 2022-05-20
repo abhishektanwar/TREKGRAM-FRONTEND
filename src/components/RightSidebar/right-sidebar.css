@@ -1,6 +1,7 @@
 .right-sidebar-container{
   flex: 25%;
-  height: 90vh;
+  height: fit-content;
   background-color:var(--bg-color);
   border-radius: 5px;
+  margin-top: 2rem;
 }

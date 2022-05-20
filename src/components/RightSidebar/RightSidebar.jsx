@@ -9,7 +9,6 @@ const RightSidebar = ({component}) => {
       <div className="right-sidebar-wrapper">
         {component ?? <HomeRightBar />}
       </div>
-      right sidebar
     </div>
   )
 }

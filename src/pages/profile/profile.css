@@ -34,6 +34,7 @@
 .user-bio{
   width: 60%;
   margin-top: 1rem;
+  text-align: center;
 }
 
 .user-name{
@@ -60,6 +61,7 @@
   /* background-color: var(--grey-background-color); */
   padding: 1rem;
   margin-top: 2rem;
+  height: fit-content;
 }
 
 .right-bar-friend-followings{
@@ -71,6 +73,7 @@
   height: 170x;
   width: 140px;
   margin: 5px;
+  cursor: pointer;
 }
 
 .right-bar-friend-following-img{
@@ -85,4 +88,18 @@
 
 .friend-following-name{
   color: var(--black-color);
+}
+
+.loader-container{
+  position: relative;
+}
+
+.no-friends{
+  text-align: center;
+
+}
+
+.portfolio-link{
+  text-decoration: none;
+  color: var(--primary-color);
 }
