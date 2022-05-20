@@ -12,11 +12,11 @@
 
 ---
 
-## Live Website : [Trek Flix](https://trekgram.netlify.app/)
+## Live Website : [Trek Gram](https://trekgram.netlify.app/)
 
 ---
 
-## Video Demo : [Trek Flix](https://trekgram.netlify.app/)
+## Video Demo : [Trek Gram](https://trekgram.netlify.app/)
 
 ---
 
@@ -31,17 +31,21 @@ Below listed are the links for different pages in Trek Shark.
 ## Features
 
 >### P0
-- Create, Edit, and delete notes.
+- Create, Edit, and delete posts.
 
 
-- Filter notes by priority, label and sort by dates.
+- Filter notes by trending (most likes), and sort by lastest .
 
-- Change note color.
+- Comment on posts
 
-- Add tags to notes.
+- Bookmark posts
 
-- Archive notes
+- Follow / Unfollow user
+
+- Edit user profile , add / change profile picture.
 
 >### P1
 
-- Search notes by entering note title in search box.
+- Share pictures in posts. 
+
+- Add background image.
