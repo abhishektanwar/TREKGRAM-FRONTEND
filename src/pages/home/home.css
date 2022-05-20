@@ -1,3 +1,15 @@
 .nav-bar{
   background-color: var(--dark-primary-color);
 }
+
+.right-bar-container{
+  padding: 1rem;
+}
+.follow-suggestion-container{
+
+}
+
+.follow-btn{
+  height: fit-content;
+  padding: 5px;
+}

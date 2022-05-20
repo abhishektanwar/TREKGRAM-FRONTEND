@@ -11,6 +11,8 @@ import { verifyUser } from "./reducers/userSlice";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
 import utils from "./utils";
 import { ModalProvider } from "./contexts/ModalContext";
+import Explore from "./pages/explore/Explore";
+import Bookmarks from "./pages/bookmarks/Bookmarks";
 function App() {
   const { user, authToken } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -28,6 +30,9 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<Home />} />
             <Route path="/profile/:userId" element={<Profile />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/bookmarks" element={<Bookmarks />} />
+
           </Route>
           <Route element={<AuthRoute />}>
             <Route path="/login" element={<Login />} />

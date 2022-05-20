@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { Loader } from "../Loader/Loader";
 import Post from "../Post/Post";
 import PostFilter from "../PostFilter/PostFilter";
@@ -10,10 +10,12 @@ import "./feed.css";
 const Feed = ({ posts, status, error }) => {
   const { user } = useSelector((state) => state.user);
   const { userId } = useParams();
+  const {pathname} = useLocation();
+  console.log("location",pathname);
   return (
     <div className="flex-row feed-container">
       <div className="feed-wrapper">
-        {user?._id === userId ? <Share /> : null }
+        {(user?._id === userId) || pathname==='/' ? <Share /> : null }
         <PostFilter />
         {status === "loading" ? (
           <Loader />

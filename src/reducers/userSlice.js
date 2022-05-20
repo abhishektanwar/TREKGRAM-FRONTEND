@@ -9,6 +9,8 @@ const initialState = {
   status:"idle",
   visitingUser:null,
   error:null,
+  allUsers:[],
+  fetchingAllUsersStatus:"idle",
 };
 
 export const login = createAsyncThunk("user/login", async (data) => {
@@ -121,6 +123,23 @@ export const unFollowUser = createAsyncThunk("user/unFollowUser",async ({targetU
   }
 });
 
+export const getAllUsers = createAsyncThunk("user/getAllUsers",async(_,{rejectWithValue})=>{
+  try {
+    // console.log("unfollow data",targetUserId,userId);
+    const result = await axios.request({
+      method: "get",
+      url: `${BASE_API_URL}/api/user/users/getAll`,
+    });
+    console.log("unfollow user result", result);
+    return result.data;
+  } catch (err) {
+    console.log("user/get all users", err);
+    // to reject
+    return rejectWithValue("Failed to fetch all user")
+  }
+});
+
+
 export const updateUser = createAsyncThunk("user/updateUser",async ({userId,data},{rejectWithValue})=>{
   try {
     console.log("update data",userId,data);
@@ -142,6 +161,30 @@ export const updateUser = createAsyncThunk("user/updateUser",async ({userId,data
     return rejectWithValue("Failed to update user")
   }
 });
+
+export const bookmarkPost = createAsyncThunk(
+  "counter/bookmarkPost",
+  async ({ postId }, { rejectWithValue }) => {
+    try {
+      console.log("data like Post", { postId });
+      const result = await axios.request({
+        method: "put",
+        url: `https://trekgram-backend.herokuapp.com/api/post/${postId}/bookmark`,
+        headers: {
+          authorization: `Bearer ${utils.getLocalStorage(
+            authTokenKeyLocalStorage
+          )}`,
+        },
+        // data: {userId:userId}result.data
+      });
+      console.log("likePost result", result.data);
+      return {postId,data:result.data};
+    } catch (err) {
+      console.log("counter/likePost", err);
+      return rejectWithValue("Failed to like/unlike post");
+    }
+  }
+);
 
 export const userSlice = createSlice({
   name: "user",
@@ -200,7 +243,10 @@ export const userSlice = createSlice({
     [followUser.fulfilled]:(state,action)=>{
       state.status = "fulfulled"
       state.user = {...state.user,following:[...state.user.following,state.visitingUser]}
-      state.visitingUser = {...state.visitingUser,followers:[...state.visitingUser.followers,state.user]}
+      if(state.visitingUser){
+        state.visitingUser = {...state.visitingUser,followers:[...state.visitingUser.followers,state.user]}
+
+      }
     },
     [followUser.rejected]:(state,action)=>{
       state.status = "idle";
@@ -230,6 +276,34 @@ export const userSlice = createSlice({
     },
     [updateUser.rejected]:(state,action)=>{
       state.status = "idle";
+      state.error = action.payload
+    },
+    [getAllUsers.pending]:(state)=>{
+      state.fetchingAllUsersStatus = "loading"
+    },
+    [getAllUsers.fulfilled]:(state,action)=>{
+      state.fetchingAllUsersStatus = "fulfilled"
+      state.allUsers = [...state.allUsers,...action.payload]
+    },
+    [getAllUsers.rejected]:(state,action)=>{
+      state.fetchingAllUsersStatus = "idle";
+      state.error = action.payload
+    },
+    [bookmarkPost.pending]:(state)=>{
+      state.status = "loading"
+    },
+    [bookmarkPost.fulfilled]:(state,action)=>{
+      state.fetchingAllUsersStatus = "fulfilled"
+      if(action.payload.data === "Post bookmarkedd"){
+        state.user = {...state.user,bookmarks:[...state.user.bookmarks,action.payload.postId]}
+      }
+      else if(action.payload.data === "Post un bookmarked"){
+        state.user = {...state.user,bookmarks:state.user.bookmarks.filter((post)=>post._id !== action.payload.postId)}
+      }
+      // state.user = {...state.user,bookmarks}
+    },
+    [bookmarkPost.rejected]:(state,action)=>{
+      state.fetchingAllUsersStatus = "idle";
       state.error = action.payload
     }
   },

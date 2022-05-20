@@ -17,7 +17,8 @@ const initialState = {
   isEditingPost: false,
   updatingPost: {}, //post that is being updated
   filterType: null,
-  userPosts:[]
+  userPosts:[],
+  explorePosts:null,
 };
 
 export const loadPosts = createAsyncThunk(
@@ -32,6 +33,23 @@ export const loadPosts = createAsyncThunk(
             authTokenKeyLocalStorage
           )}`,
         },
+      });
+      console.log("result", result);
+      return result.data;
+    } catch (err) {
+      console.log("counter/loadPosts", err);
+      return rejectWithValue("Failed to load post");
+    }
+  }
+);
+
+export const getExplorePosts = createAsyncThunk(
+  "counter/getExplorePosts",
+  async (_, { rejectWithValue }) => {
+    try {
+      const result = await axios.request({
+        method: "get",
+        url: `https://trekgram-backend.herokuapp.com/api/post/posts/getAllPosts`,
       });
       console.log("result", result);
       return result.data;
@@ -193,7 +211,7 @@ export const bookmarkPost = createAsyncThunk(
         },
         // data: {userId:userId}result.data
       });
-      console.log("likePost result", result);
+      console.log("likePost result", result.data);
       return postId;
     } catch (err) {
       console.log("counter/likePost", err);
@@ -350,6 +368,22 @@ export const postSlice = createSlice({
             }
           : post
       );
+      state.explorePosts = state.explorePosts.map((post) =>
+        post._id === action.payload.postId
+          ? {
+              ...post,
+              comments: [
+                ...post.comments,
+                {
+                  userId: action.payload.userId,
+                  comment: action.payload.comment,
+                  profilePicture: action.payload.profilePicture,
+                  username: action.payload.username,
+                },
+              ],
+            }
+          : post
+      );
       // state.posts = action.payload;
     },
     [addComment.rejected]: (state, action) => {
@@ -373,6 +407,11 @@ export const postSlice = createSlice({
           ? { ...post, desc: action.payload.data.desc }
           : post
       );
+      state.explorePosts = state.explorePosts.map((post) =>
+        post._id === action.payload.postId
+          ? { ...post, desc: action.payload.data.desc }
+          : post
+      );
       state.isEditingPost = false;
       state.updatingPost = {};
       // state.posts = action.payload;
@@ -391,6 +430,19 @@ export const postSlice = createSlice({
       state.userPosts = action.payload;
     },
     [loadUserPosts.rejected]: (state, action) => {
+      state.error = true;
+      state.status = "idle";
+      state.errorMessage = action.payload;
+    },
+    [getExplorePosts.pending]: (state) => {
+      state.status = "loading";
+    },
+    [getExplorePosts.fulfilled]: (state, action) => {
+      console.log("action posts", action);
+      state.status = "fulfilled";
+      state.explorePosts = action.payload;
+    },
+    [getExplorePosts.rejected]: (state, action) => {
       state.error = true;
       state.status = "idle";
       state.errorMessage = action.payload;

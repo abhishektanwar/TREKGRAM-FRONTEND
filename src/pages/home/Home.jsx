@@ -5,6 +5,7 @@ import { latestPostsFilter } from "../../helpers/filters/latestPostsFilter";
 import { trendingPostsFilter } from "../../helpers/filters/trendingPostsFilter";
 import { loadPosts } from "../../reducers/postSlice";
 import "./home.css";
+import HomeRightbar from "./HomeRightbar";
 const Home = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
@@ -31,7 +32,7 @@ const Home = () => {
       <div className="flex-row home-container app-container">
         <LeftSidebar user={user} />
         <Feed posts={finalFilteredPosts} status={status} error={error} />
-        <RightSidebar />
+        <RightSidebar component={<HomeRightbar />} />
       </div>
     </div>
   );
