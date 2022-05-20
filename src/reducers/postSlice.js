@@ -307,7 +307,7 @@ export const postSlice = createSlice({
     },
     [addComment.fulfilled]: (state, action) => {
       // state.postCreatedStatus = "fulfilled"
-      state.posts = state.posts.filter((post) => post._id !== action.payload);
+      // state.posts = state.posts.filter((post) => post._id !== action.payload);
       state.posts = state.posts.map((post) =>
         post._id === action.payload.postId
           ? {
@@ -325,7 +325,7 @@ export const postSlice = createSlice({
           : post
       );
       // update user posts if found
-      state.userPosts = state.userPosts.map((post) =>
+      state.userPosts = state.userPosts?.map((post) =>
         post._id === action.payload.postId
           ? {
               ...post,
@@ -341,7 +341,7 @@ export const postSlice = createSlice({
             }
           : post
       );
-      state.explorePosts = state.explorePosts.map((post) =>
+      state.explorePosts = state.explorePosts?.map((post) =>
         post._id === action.payload.postId
           ? {
               ...post,
