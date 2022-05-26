@@ -77,21 +77,31 @@ const SignIn = () => {
             </p>
           )} */}
           {/* loader comp */}
-          <Button buttonText="Login" onClick={() => loginUser()} />
+          <Button buttonText="Login" buttonStyle={!(isValidPassword && isValidEmail) ? 'btn-disabled' : '' } onClick={() => loginUser()} />
           <Button
             buttonText="Create new account"
-            buttonStyle="secondary-button margin-top-0 primary-outline"
+            buttonStyle="secondary-button margin0 primary-outline"
             // icon="fas fa-chevron-right"
             icon={<ChevronRight fontSize="large" />}
             onClick={() => {navigate('/register')}}
           />
           <Button
-            buttonText="Login with test credenials"
-            buttonStyle="secondary-button body-typo-md margin-top-0"
+            buttonText="Use test credenials 1"
+            buttonStyle="secondary-button body-typo-md margin0"
             onClick={() =>
               setLoginCredentials({
-                email: "testuser@tg.com",
-                password: "test1234",
+                email: "user1@tg.com",
+                password: "12345678",
+              })
+            }
+          />
+          <Button
+            buttonText="Use test credenials 2"
+            buttonStyle="secondary-button body-typo-md margin0"
+            onClick={() =>
+              setLoginCredentials({
+                email: "user2@tg.com",
+                password: "12345678",
               })
             }
           />

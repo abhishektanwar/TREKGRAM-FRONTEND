@@ -38,7 +38,7 @@ const Profile = () => {
   return (
     <div>
       <div className="flex-row profile-container app-container">
-        <LeftSidebar />
+        <LeftSidebar user={user} />
         <div className="profile-right">
           <div className="profile-right-top flex-column">
             <div className="profile-cover">

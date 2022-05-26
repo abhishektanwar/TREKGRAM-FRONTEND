@@ -64,7 +64,7 @@ const LeftSidebar = ({ user }) => {
             className={`sidebar-list-item ${
               pathname === "/profile/:id" ? "active-link" : null
             }`}
-            onClick={() => navigate(`/profile/${user._id}`)}
+            onClick={() => navigate(`/profile/${user?._id}`)}
           >
             <NavButton
               buttonText="Profile"

@@ -12,9 +12,10 @@ const initialState = {
   error: null,
   allUsers: [],
   fetchingAllUsersStatus: "idle",
+  loginError:""
 };
 const { customToast } = Toast();
-export const login = createAsyncThunk("user/login", async (data) => {
+export const login = createAsyncThunk("user/login", async (data,{rejectWithValue}) => {
   try {
     const result = await axios.request({
       method: "post",
@@ -26,7 +27,7 @@ export const login = createAsyncThunk("user/login", async (data) => {
   } catch (err) {
     console.log("counter/loadPosts", err);
     // to reject
-    // return rejectWithValue, call this fn
+    return rejectWithValue(err)
   }
 });
 
@@ -148,6 +149,11 @@ export const getAllUsers = createAsyncThunk(
       const result = await axios.request({
         method: "get",
         url: `${BASE_API_URL}/api/user/users/getAll`,
+        headers: {
+          authorization: `Bearer ${utils.getLocalStorage(
+            authTokenKeyLocalStorage
+          )}`,
+        },
       });
       console.log("unfollow user result", result);
       return result.data;
@@ -215,6 +221,8 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.authToken = null;
+      state.allUsers = [];
+      state.fetchingAllUsersStatus= "idle";
       utils.removeLocalStorage(authTokenKeyLocalStorage);
     },
   },
@@ -227,6 +235,14 @@ export const userSlice = createSlice({
       state.user = action.payload.user;
       state.authToken = action.payload.token;
       utils.setLocalStorage(authTokenKeyLocalStorage, action.payload.token);
+    },
+    [login.rejected]: (state, action) => {
+      state.status = "rejected";
+      state.user = null;
+      state.authToken = null;
+      utils.removeLocalStorage(authTokenKeyLocalStorage);
+      console.log("action.payload login fail",action.payload.response.data.message)
+      customToast(action.payload.response.data.message,"error")
     },
     // verify user
     [verifyUser.pending]: (state) => {
@@ -325,7 +341,7 @@ export const userSlice = createSlice({
     },
     [getAllUsers.fulfilled]: (state, action) => {
       state.fetchingAllUsersStatus = "fulfilled";
-      state.allUsers = [...state.allUsers, ...action.payload];
+      state.allUsers = [...action.payload];
     },
     [getAllUsers.rejected]: (state, action) => {
       state.fetchingAllUsersStatus = "idle";

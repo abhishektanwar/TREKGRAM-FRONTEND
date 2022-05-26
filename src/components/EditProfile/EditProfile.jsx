@@ -9,9 +9,12 @@ import { Loader } from "../Loader/Loader";
 import { updateUser } from "../../reducers/userSlice";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
+import { useModal } from "../../contexts/ModalContext";
 
 const EditProfile = () => {
   const { user } = useSelector((state) => state.user);
+  const {hideModal} = useModal();
+
   const [profileData, setProfileData] = useState({
     coverPicture: user.coverPicture ? user.coverPicture : null,
     profilePicture: user.profilePicture ? user.profilePicture : null,
@@ -61,6 +64,7 @@ const EditProfile = () => {
       })
     );
     setSaving(false);
+    hideModal()
   };
 
   return user ? (
@@ -121,10 +125,10 @@ const EditProfile = () => {
             <div className="profile-img-container cover-image-container">
               <img
                 src={
-                  file.profilePicture
-                    ? URL.createObjectURL(file.profilePicture)
-                    : profileData.profilePicture
-                    ? profileData.profilePicture
+                  file.coverPicture
+                    ? URL.createObjectURL(file.coverPicture)
+                    : profileData.coverPicture
+                    ? profileData.coverPicture
                     : dummy
                 }
                 alt="avatar"
