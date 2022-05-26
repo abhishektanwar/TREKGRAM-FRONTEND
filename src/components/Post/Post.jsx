@@ -9,7 +9,7 @@ import {
   Bookmark,
   Edit,
 } from "@material-ui/icons";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Button from "../Buttons/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,7 +22,7 @@ import { useState } from "react";
 import { InputField } from "..";
 import { format } from "timeago.js";
 import { bookmarkPost } from "../../reducers/userSlice";
-const Post = ({ post }) => {
+const Post = ({ post,showLikeDeleteBtn }) => {
   const { user: currentUser } = useSelector((state) => state.user);
   const {
     username,
@@ -84,7 +84,7 @@ const Post = ({ post }) => {
             </span>
           </div>
           <div className="post-top-right">
-            {post.userId === currentUser?._id ? (
+            {post.userId === currentUser?._id && showLikeDeleteBtn ? (
               <>
                 <Button
                   icon={<Edit fontSize="large" />}

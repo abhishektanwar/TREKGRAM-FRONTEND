@@ -25,8 +25,8 @@ const Bookmarks = () => {
     <div>
       <div className="flex-row home-container app-container">
         <LeftSidebar user={user} />
-        <Feed posts={finalFilteredPosts} status={status} error={error} />
-        {/* <RightSidebar component={<HomeRightbar />} /> */}
+        <Feed posts={finalFilteredPosts} status={status} error={error} showLikeDeleteBtn={false} />
+        <RightSidebar component={<HomeRightbar />} />
       </div>
     </div>
   )

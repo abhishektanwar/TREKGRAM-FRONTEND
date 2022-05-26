@@ -31,7 +31,7 @@ const Home = () => {
       
       <div className="flex-row home-container app-container">
         <LeftSidebar user={user} />
-        <Feed posts={finalFilteredPosts} status={status} error={error} />
+        <Feed posts={finalFilteredPosts} status={status} error={error} showLikeDeleteBtn={true} />
         <RightSidebar component={<HomeRightbar />} />
       </div>
     </div>

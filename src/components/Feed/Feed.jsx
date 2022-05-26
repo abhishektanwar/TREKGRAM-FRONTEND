@@ -7,7 +7,7 @@ import PostFilter from "../PostFilter/PostFilter";
 import Share from "../Share/Share";
 import "./feed.css";
 
-const Feed = ({ posts, status, error }) => {
+const Feed = ({ posts, status, error, showLikeDeleteBtn }) => {
   const { user } = useSelector((state) => state.user);
   const { userId } = useParams();
   const { pathname } = useLocation();
@@ -19,24 +19,26 @@ const Feed = ({ posts, status, error }) => {
           <PostFilter />
           {status === "loading" ? (
             <div className="loader-container">
-            <Loader />
-          </div>
+              <Loader />
+            </div>
           ) : error === true ? (
             <h3>Failed to load posts</h3>
           ) : posts?.length > 0 ? (
             posts?.map((post) => {
               return (
                 <Fragment key={post._id}>
-                  <Post post={post} />
+                  <Post post={post} showLikeDeleteBtn={showLikeDeleteBtn} />
                 </Fragment>
               );
             })
-          ) : <h2>No posts found</h2>}
+          ) : (
+            <h2>No posts found</h2>
+          )}
         </div>
       ) : (
         <div className="loader-container">
-            <Loader />
-          </div>
+          <Loader />
+        </div>
       )}
     </div>
   );

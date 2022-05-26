@@ -3,6 +3,7 @@
   border-right: 1px solid var(--grey-background-color);
   background-color:var(--bg-color);
   margin-right: 2rem;
+  margin-top: 2rem;
   height: fit-content;
   position:sticky;
   top: 50px;

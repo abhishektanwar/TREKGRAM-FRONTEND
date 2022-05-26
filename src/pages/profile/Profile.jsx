@@ -87,7 +87,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="profile-right-bottom">
-            <Feed posts={userPosts} status={status} error={error} />
+            <Feed posts={userPosts} status={status} error={error} showLikeDeleteBtn={true} />
             <RightSidebar component={<ProfileRightBar />} />
           </div>
         </div>
